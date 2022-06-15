@@ -1,4 +1,4 @@
-package com.example.orate;
+package com.example.orate.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -6,6 +6,9 @@ import android.os.Bundle;
 
 import android.content.Intent;
 import android.os.Handler;
+
+import com.example.orate.R;
+
 public class SplashScreen extends AppCompatActivity {
 
     @Override
