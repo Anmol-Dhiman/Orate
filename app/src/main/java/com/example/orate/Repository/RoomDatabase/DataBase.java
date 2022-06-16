@@ -9,7 +9,7 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
 
-@Database(entities = {CallHistoryModel.class}, version = 1)
+@Database(entities = {CallHistoryModel.class}, version = 1,exportSchema = false)
 public abstract class DataBase extends RoomDatabase {
 
     private static DataBase instance;

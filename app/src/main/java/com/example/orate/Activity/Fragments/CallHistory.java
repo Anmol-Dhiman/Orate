@@ -13,6 +13,12 @@ import com.example.orate.R;
 
 public class CallHistory extends Fragment {
 
+    public CallHistory() {
+    }
+
+    public CallHistory(int contentLayoutId) {
+        super(contentLayoutId);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

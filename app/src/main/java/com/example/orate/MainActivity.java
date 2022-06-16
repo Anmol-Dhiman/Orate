@@ -1,11 +1,16 @@
-package com.example.orate.Activity;
+package com.example.orate;
+
 
 import androidx.appcompat.app.AppCompatActivity;
 
 
+
 import android.os.Bundle;
 
+
 import com.example.orate.databinding.ActivityMainBinding;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -18,7 +23,10 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("message");
 
+        myRef.setValue("Hello, World!");
 
     }
 

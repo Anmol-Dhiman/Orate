@@ -12,7 +12,12 @@ import com.example.orate.R;
 
 public class ContactList extends Fragment {
 
+    public ContactList() {
+    }
 
+    public ContactList(int contentLayoutId) {
+        super(contentLayoutId);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

@@ -12,6 +12,12 @@ import com.example.orate.R;
 
 public class UserProfile extends Fragment {
 
+    public UserProfile() {
+    }
+
+    public UserProfile(int contentLayoutId) {
+        super(contentLayoutId);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
