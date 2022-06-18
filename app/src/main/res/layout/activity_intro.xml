@@ -34,9 +34,7 @@
 
     <Button
         android:id="@+id/getStartedButton"
-
         style="@style/smallButtonTheme"
-
         android:layout_marginBottom="32dp"
         android:text="Get Started"
         app:layout_constraintBottom_toBottomOf="parent"

@@ -7,7 +7,7 @@
     tools:context=".Activity.SingInTimeActivities.PhoneNumberInput">
 
     <Button
-        android:id="@+id/logInButton"
+        android:id="@+id/startButton"
         style="@style/bigButtonTheme"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"

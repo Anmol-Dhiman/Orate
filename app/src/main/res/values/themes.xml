@@ -16,7 +16,7 @@
 
     <style name="smallButtonTheme">
         <item name="android:layout_width">250dp</item>
-        <item name="android:height">@dimen/heightCommon</item>
+        <item name="android:layout_height">@dimen/heightCommon</item>
         <item name="android:backgroundTint">@color/backgroundColor</item>
         <item name="android:textStyle">bold</item>
     </style>

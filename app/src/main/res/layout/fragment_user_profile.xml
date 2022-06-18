@@ -50,7 +50,7 @@
                     app:layout_constraintTop_toTopOf="parent">
 
                     <ImageView
-                        android:id="@+id/imageView2"
+                        android:id="@+id/contactImage"
                         android:layout_width="@dimen/profileFragmentImage"
                         android:layout_height="@dimen/profileFragmentImage"
                         android:background="@drawable/profile_fragment_image"
@@ -89,7 +89,7 @@
 
 
                 <TextView
-                    android:id="@+id/textView14"
+                    android:id="@+id/status"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"

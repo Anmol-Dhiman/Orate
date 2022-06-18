@@ -20,6 +20,7 @@ public class CallHistoryModel {
     private String contactName;
     private String callType;
 
+
     @TypeConverters({DateConverter.class})
     private Date date;
 
