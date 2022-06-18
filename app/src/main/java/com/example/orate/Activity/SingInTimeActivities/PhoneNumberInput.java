@@ -4,13 +4,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
-import com.example.orate.Repository.Firebase.AuthenticationMethods;
+import com.example.orate.Repository.Firebase.FirebaseMethods;
 import com.example.orate.databinding.ActivityPhoneNumberInputBinding;
 
 public class PhoneNumberInput extends AppCompatActivity {
@@ -37,7 +35,7 @@ public class PhoneNumberInput extends AppCompatActivity {
                             .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
-                                    AuthenticationMethods.sendOtp(PhoneNumberInput.this, phoneNumber);
+                                    FirebaseMethods.sendOtp(PhoneNumberInput.this, phoneNumber);
                                 }
                             })
                             .setNeutralButton("EDIT", new DialogInterface.OnClickListener() {

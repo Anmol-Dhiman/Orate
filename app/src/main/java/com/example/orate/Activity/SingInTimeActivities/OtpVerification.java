@@ -2,13 +2,12 @@ package com.example.orate.Activity.SingInTimeActivities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
-import com.example.orate.Repository.Firebase.AuthenticationMethods;
+import com.example.orate.Repository.Firebase.FirebaseMethods;
 import com.example.orate.databinding.ActivityOtpVerificationBinding;
 
 public class OtpVerification extends AppCompatActivity {
@@ -48,7 +47,7 @@ public class OtpVerification extends AppCompatActivity {
                             binding.editTextNumber6.getText().toString().trim();
 
 
-                    AuthenticationMethods.verifyOTP(OtpVerification.this, code, phoneNumber, verificationID);
+                    FirebaseMethods.verifyOTP(OtpVerification.this, code, phoneNumber, verificationID);
 
                 }
             }
@@ -61,7 +60,7 @@ public class OtpVerification extends AppCompatActivity {
                 if (code != null) {
                     Log.d("main", "in the resend otp button ");
                     Toast.makeText(OtpVerification.this, "resending otp", Toast.LENGTH_SHORT).show();
-                    AuthenticationMethods.sendOtp(OtpVerification.this, getIntent().getStringExtra("PhoneNumber"));
+                    FirebaseMethods.sendOtp(OtpVerification.this, getIntent().getStringExtra("PhoneNumber"));
                 }
             }
         });

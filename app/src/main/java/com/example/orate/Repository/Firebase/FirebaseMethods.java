@@ -1,16 +1,23 @@
 package com.example.orate.Repository.Firebase;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.orate.Activity.SingInTimeActivities.OtpVerification;
 import com.example.orate.Activity.SingInTimeActivities.ProfileDetails;
+import com.example.orate.DataModel.UserModel;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.AuthResult;
@@ -19,20 +26,27 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthOptions;
 import com.google.firebase.auth.PhoneAuthProvider;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.util.concurrent.TimeUnit;
 
 
-public class AuthenticationMethods {
+public class FirebaseMethods {
 
 
     private MutableLiveData<FirebaseUser> userMutableLiveData;
 
 
-    public AuthenticationMethods() {
+    public FirebaseMethods() {
         userMutableLiveData = new MutableLiveData<>();
     }
 
+    public MutableLiveData<FirebaseUser> getUserMutableLiveData() {
+        return userMutableLiveData;
+    }
 
     public static void sendOtp(Context context, String phoneNumber) {
 
@@ -98,7 +112,31 @@ public class AuthenticationMethods {
     }
 
 
-    public void registerUser(String userName, String userFullName, String phoneNumber, String profilePicture, String about) {
+    public void registerUser(String userName, String about, String fullName, String phoneNumber, String image) {
+
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+
+        StorageReference reference = storage.getReference().child("Profile Image").child(phoneNumber);
+        reference.putFile(Uri.parse(image)).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                reference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        UserModel user = new UserModel(userName, uri.toString(), about, fullName, "0", "no");
+                        database.getReference().child("User").child(phoneNumber).setValue(user).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void unused) {
+                                userMutableLiveData.postValue(auth.getCurrentUser());
+                            }
+                        });
+                    }
+                });
+            }
+        });
+
 
     }
 

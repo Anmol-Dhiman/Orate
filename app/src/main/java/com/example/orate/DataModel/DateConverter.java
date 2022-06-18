@@ -1,4 +1,4 @@
-package com.example.orate.Repository.RoomDatabase;
+package com.example.orate.DataModel;
 
 import androidx.room.TypeConverter;
 
