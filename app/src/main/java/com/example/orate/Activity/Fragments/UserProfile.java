@@ -41,7 +41,7 @@ public class UserProfile extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 UserModel user = snapshot.getValue(UserModel.class);
-                Glide.with(UserProfile.this)
+                Glide.with(container.getContext())
                         .load(user.getImage())
                         .apply(RequestOptions.centerCropTransform())
                         .into(binding.profileImage);

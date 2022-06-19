@@ -21,17 +21,27 @@ public class CallHistoryModel {
     private String mediaType;
     private String contactName;
     private String callType;
+    private String about;
 
 
     @TypeConverters({DateConverter.class})
     private Date date;
 
-    public CallHistoryModel(String profilePictureSrc, String mediaType, String contactName, String callType, Date date) {
+    public CallHistoryModel(String profilePictureSrc, String mediaType, String contactName, String callType, Date date, String about) {
         this.profilePictureSrc = profilePictureSrc;
         this.mediaType = mediaType;
         this.contactName = contactName;
         this.callType = callType;
+        this.about = about;
         this.date = date;
+    }
+
+    public String getAbout() {
+        return about;
+    }
+
+    public void setAbout(String about) {
+        this.about = about;
     }
 
     public void setId(int id) {
