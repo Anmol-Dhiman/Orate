@@ -62,8 +62,6 @@
 
     <dimen name="profileSize">50dp</dimen>
     <dimen name="profileFragmentImage">74dp</dimen>
-
-
     <dimen name="widthCommon">320dp</dimen>
     <dimen name="heightCommon">60dp</dimen>
 </resources>

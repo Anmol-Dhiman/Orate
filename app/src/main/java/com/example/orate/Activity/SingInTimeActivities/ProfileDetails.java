@@ -21,7 +21,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
-import com.example.orate.DataModel.UserModel;
 import com.example.orate.MainActivity;
 import com.example.orate.ViewModel.FirebaseAuthViewModel;
 import com.example.orate.databinding.ActivityProflieDetailsBinding;
@@ -44,6 +43,10 @@ public class ProfileDetails extends AppCompatActivity {
         binding = ActivityProflieDetailsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         phoneNumber = getIntent().getStringExtra("PhoneNumber");
+
+
+
+
         firebaseAuthViewModel = new ViewModelProvider(this).get(FirebaseAuthViewModel.class);
         firebaseAuthViewModel.getLiveData().observe(this, new Observer<FirebaseUser>() {
             @Override

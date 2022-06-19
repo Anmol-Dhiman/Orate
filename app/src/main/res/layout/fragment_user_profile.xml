@@ -50,7 +50,7 @@
                     app:layout_constraintTop_toTopOf="parent">
 
                     <ImageView
-                        android:id="@+id/contactImage"
+                        android:id="@+id/profileImage"
                         android:layout_width="@dimen/profileFragmentImage"
                         android:layout_height="@dimen/profileFragmentImage"
                         android:background="@drawable/profile_fragment_image"
@@ -132,7 +132,7 @@
                     android:textSize="16dp" />
 
                 <TextView
-                    android:id="@+id/textView12"
+                    android:id="@+id/userNameProfileFragment"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Jerry"
@@ -166,6 +166,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Ronak Jaiswal"
+                    android:id="@+id/fullNameProfileFragment"
                     android:textColor="@color/textColor"
                     android:textSize="16dp" />
 
@@ -199,6 +200,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Ronak"
+                    android:id="@+id/aboutProfileFargment"
                     android:textColor="@color/textColor"
                     android:textSize="16dp" />
 

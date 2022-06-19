@@ -29,19 +29,27 @@
         <entry key="..\:/Users/anmol/AndroidStudioProjects/Orate/app/src/main/res/layout/fragment_user_profile.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/anmol/AndroidStudioProjects/Orate/app/src/main/res/layout/list_item.xml" value="0.536" />
         <entry key="..\:/Users/anmol/AndroidStudioProjects/Orate/app/src/main/res/menu/bottom_navigation_items.xml" value="0.176" />
+        <entry key="..\:/video call app assets/Orate/app/src/main/res/drawable/ic_answer_call.xml" value="0.3675" />
+        <entry key="..\:/video call app assets/Orate/app/src/main/res/drawable/ic_audiomediaoff.xml" value="0.3675" />
+        <entry key="..\:/video call app assets/Orate/app/src/main/res/drawable/ic_audiomediaon.xml" value="0.3675" />
         <entry key="..\:/video call app assets/Orate/app/src/main/res/drawable/ic_backgroud_toset_proflie_picture.xml" value="0.296" />
+        <entry key="..\:/video call app assets/Orate/app/src/main/res/drawable/ic_baseline_call_end_24.xml" value="0.3675" />
         <entry key="..\:/video call app assets/Orate/app/src/main/res/drawable/ic_baseline_person_24.xml" value="0.296" />
         <entry key="..\:/video call app assets/Orate/app/src/main/res/drawable/ic_bottom_line.xml" value="0.3675" />
+        <entry key="..\:/video call app assets/Orate/app/src/main/res/drawable/ic_callend.xml" value="0.3675" />
         <entry key="..\:/video call app assets/Orate/app/src/main/res/drawable/ic_cam.xml" value="0.3675" />
         <entry key="..\:/video call app assets/Orate/app/src/main/res/drawable/ic_contact_arrow.xml" value="0.296" />
         <entry key="..\:/video call app assets/Orate/app/src/main/res/drawable/ic_contacts_fragment.xml" value="0.3675" />
         <entry key="..\:/video call app assets/Orate/app/src/main/res/drawable/ic_history_framgent.xml" value="0.3675" />
         <entry key="..\:/video call app assets/Orate/app/src/main/res/drawable/ic_icoming_missed_call.xml" value="0.3675" />
+        <entry key="..\:/video call app assets/Orate/app/src/main/res/drawable/ic_phone_call.xml" value="0.3675" />
         <entry key="..\:/video call app assets/Orate/app/src/main/res/drawable/ic_profile_fragment.xml" value="0.3675" />
         <entry key="..\:/video call app assets/Orate/app/src/main/res/drawable/ic_signout_button.xml" value="0.3675" />
         <entry key="..\:/video call app assets/Orate/app/src/main/res/drawable/ic_splash_logo.xml" value="0.3675" />
         <entry key="..\:/video call app assets/Orate/app/src/main/res/drawable/ic_status_color.xml" value="0.3675" />
         <entry key="..\:/video call app assets/Orate/app/src/main/res/drawable/ic_video_call.xml" value="0.3675" />
+        <entry key="..\:/video call app assets/Orate/app/src/main/res/drawable/ic_videomediaoff.xml" value="0.3675" />
+        <entry key="..\:/video call app assets/Orate/app/src/main/res/drawable/ic_videomediaon.xml" value="0.3675" />
         <entry key="..\:/video call app assets/Orate/app/src/main/res/drawable/inputbox.xml" value="0.3675" />
         <entry key="..\:/video call app assets/Orate/app/src/main/res/drawable/profile_fragment_image.xml" value="0.3675" />
         <entry key="..\:/video call app assets/Orate/app/src/main/res/drawable/proflie_sign_out_button.xml" value="0.3665" />
@@ -55,10 +63,10 @@
         <entry key="..\:/video call app assets/Orate/app/src/main/res/layout/fragment_call_history.xml" value="0.33" />
         <entry key="..\:/video call app assets/Orate/app/src/main/res/layout/fragment_contact_list.xml" value="0.36666666666666664" />
         <entry key="..\:/video call app assets/Orate/app/src/main/res/layout/fragment_user_profile.xml" value="0.25" />
-        <entry key="..\:/video call app assets/Orate/app/src/main/res/layout/list_item.xml" value="0.47976011994003" />
-        <entry key="..\:/video call app assets/Orate/app/src/main/res/layout/sample.xml" value="0.36666666666666664" />
+        <entry key="..\:/video call app assets/Orate/app/src/main/res/layout/list_item.xml" value="0.33" />
+        <entry key="..\:/video call app assets/Orate/app/src/main/res/layout/sample.xml" value="0.33" />
         <entry key="..\:/video call app assets/Orate/app/src/main/res/layout/sample_test.xml" value="0.5" />
-        <entry key="..\:/video call app assets/Orate/app/src/main/res/menu/bottom_navigation_items.xml" value="0.33" />
+        <entry key="..\:/video call app assets/Orate/app/src/main/res/menu/bottom_navigation_items.xml" value="0.1" />
       </map>
     </option>
   </component>
