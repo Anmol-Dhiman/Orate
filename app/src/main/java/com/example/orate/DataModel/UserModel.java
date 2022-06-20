@@ -2,16 +2,19 @@ package com.example.orate.DataModel;
 
 public class UserModel {
 
-    private String userName, image, about, incoming, fullName, isAvailable;
+    private String userName, image, about, fullName, phoneNumber;
 
 
-    public UserModel(String userName, String image, String about, String fullName, String incoming, String isAvailable) {
+    public UserModel(String userName, String image, String about, String fullName, String phoneNumber) {
         this.userName = userName;
         this.image = image;
         this.about = about;
-        this.incoming = incoming;
         this.fullName = fullName;
-        this.isAvailable = isAvailable;
+        this.phoneNumber = phoneNumber;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
     }
 
     public String getUserName() {

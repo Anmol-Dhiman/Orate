@@ -125,7 +125,7 @@ public class FirebaseMethods {
                 reference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                     @Override
                     public void onSuccess(Uri uri) {
-                        UserModel user = new UserModel(userName, uri.toString(), about, fullName, "0", "no");
+                        UserModel user = new UserModel(userName, uri.toString(), about, fullName, phoneNumber);
                         database.getReference().child("User").child(phoneNumber).setValue(user).addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void unused) {

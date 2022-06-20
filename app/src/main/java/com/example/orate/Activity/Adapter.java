@@ -15,6 +15,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.example.orate.Activity.Fragments.CallHistory;
 import com.example.orate.Activity.Fragments.UserProfile;
 import com.example.orate.DataModel.UserModel;
+import com.example.orate.MainActivity;
 import com.example.orate.R;
 import com.example.orate.Repository.RoomDatabase.CallHistoryModel;
 
@@ -69,6 +70,13 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
                     .apply(RequestOptions.centerCropTransform())
                     .into(holder.contactImage);
 
+            holder.phoneCall.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                }
+            });
+
 
         } else {
 
@@ -77,7 +85,6 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
             holder.phoneCall.setVisibility(View.GONE);
             holder.contactName.setText(model.getContactName());
             holder.about.setText(model.getAbout());
-
 
 //            contact profile image setting
             Glide.with(context)
@@ -99,6 +106,10 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
 
         }
 
+
+    }
+
+    private void makeCall(String friendPhoneNumber) {
 
     }
 
