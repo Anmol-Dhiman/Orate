@@ -1,26 +1,22 @@
 package com.example.orate;
 
-import androidx.annotation.NonNull;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.os.Bundle;
 import android.view.View;
-import android.webkit.PermissionRequest;
-import android.webkit.WebChromeClient;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
+
 
 import com.example.orate.Activity.Fragments.CallHistory;
 import com.example.orate.Activity.Fragments.ContactList;
-import com.example.orate.Activity.Fragments.JavaScriptInterface;
 import com.example.orate.Activity.Fragments.MethodsHelperClass;
 import com.example.orate.Activity.Fragments.UserProfile;
+import com.example.orate.ViewModel.HistoryViewModel;
 import com.example.orate.databinding.ActivityMainBinding;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
+
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -29,8 +25,10 @@ public class MainActivity extends AppCompatActivity {
     private boolean isPeerConnected = false;
     private String phoneNumber = null;
     private FirebaseDatabase firebaseDatabase;
-
+    private boolean isAudio = true;
+    private boolean isVideo = true;
     private MethodsHelperClass helperClass;
+    private HistoryViewModel historyViewModel;
 
 
     @Override
@@ -42,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
         replaceFragment(new ContactList());
         firebaseDatabase = FirebaseDatabase.getInstance();
         helperClass = MethodsHelperClass.getHelperMethods();
+        historyViewModel = new ViewModelProvider(this).get(HistoryViewModel.class);
         helperClassSetup();
 
 
@@ -68,9 +67,38 @@ public class MainActivity extends AppCompatActivity {
         new UserProfile().setArguments(bundle);
 
 
+//        the button for video on or off
+        binding.videoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                isVideo = !isVideo;
+                helperClass.callJavaScriptFunction("javascript:toggleVideo(\"${isVideo}\")");
+                if (isVideo)
+                    binding.videoButton.setImageResource(R.drawable.ic_videomediaon);
+                else
+                    binding.videoButton.setImageResource(R.drawable.ic_videomediaoff);
+            }
+        });
+
+
+//        the button for audio on and off
+        binding.audioButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                isAudio = !isAudio;
+                helperClass.callJavaScriptFunction("javascript:toggleVideo(\"${isAudio}\")");
+                if (isVideo)
+                    binding.audioButton.setImageResource(R.drawable.ic_audiomediaon);
+                else
+                    binding.audioButton.setImageResource(R.drawable.ic_audiomediaoff);
+            }
+        });
+
     }
 
     private void helperClassSetup() {
+
+        helperClass.setHistoryViewModel(historyViewModel);
         helperClass.setBinding(binding);
         helperClass.setPhoneNumber(phoneNumber);
         helperClass.setContext(MainActivity.this);

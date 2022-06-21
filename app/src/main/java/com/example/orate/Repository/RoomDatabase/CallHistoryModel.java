@@ -6,7 +6,7 @@ import androidx.room.TypeConverters;
 
 import com.example.orate.DataModel.DateConverter;
 
-import java.util.Date;
+import java.sql.Date;
 
 
 @Entity(tableName = "callHistory")
@@ -17,58 +17,60 @@ public class CallHistoryModel {
     private int id;
 
 
-    private String profilePictureSrc;
     private String mediaType;
-    private String contactName;
+    private String friendPhoneNumber;
     private String callType;
-    private String about;
 
 
     @TypeConverters({DateConverter.class})
     private Date date;
 
-    public CallHistoryModel(String profilePictureSrc, String mediaType, String contactName, String callType, Date date, String about) {
-        this.profilePictureSrc = profilePictureSrc;
+    public CallHistoryModel(String mediaType, String friendPhoneNumber, String callType, Date date) {
+
         this.mediaType = mediaType;
-        this.contactName = contactName;
+        this.friendPhoneNumber = friendPhoneNumber;
         this.callType = callType;
-        this.about = about;
         this.date = date;
     }
 
-    public String getAbout() {
-        return about;
-    }
 
-    public void setAbout(String about) {
-        this.about = about;
+    public int getId() {
+        return id;
     }
 
     public void setId(int id) {
         this.id = id;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public String getProfilePictureSrc() {
-        return profilePictureSrc;
-    }
-
     public String getMediaType() {
         return mediaType;
     }
 
-    public String getContactName() {
-        return contactName;
+    public void setMediaType(String mediaType) {
+        this.mediaType = mediaType;
+    }
+
+    public String getFriendPhoneNumber() {
+        return friendPhoneNumber;
+    }
+
+    public void setFriendPhoneNumber(String friendPhoneNumber) {
+        this.friendPhoneNumber = friendPhoneNumber;
     }
 
     public String getCallType() {
         return callType;
     }
 
+    public void setCallType(String callType) {
+        this.callType = callType;
+    }
+
     public Date getDate() {
         return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
     }
 }

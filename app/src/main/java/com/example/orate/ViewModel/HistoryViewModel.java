@@ -27,4 +27,8 @@ public class HistoryViewModel extends AndroidViewModel {
     public LiveData<List<CallHistoryModel>> getHistory() {
         return history;
     }
+
+    public void insert(CallHistoryModel callHistoryModel) {
+        repoLiveDataRoom.insert(callHistoryModel);
+    }
 }

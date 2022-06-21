@@ -66,9 +66,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
-
             android:padding="12dp"
-            android:visibility="visible">
+            android:visibility="gone">
 
             <TextView
                 android:id="@+id/callerName"
@@ -107,9 +106,9 @@
         </RelativeLayout>
 
         <LinearLayout
+            android:id="@+id/mediaControls"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/mediaControls"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="32dp"
@@ -117,6 +116,7 @@
             android:visibility="gone">
 
             <ImageView
+                android:id="@+id/videoButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="4dp"
@@ -126,6 +126,8 @@
             </ImageView>
 
             <ImageView
+
+                android:id="@+id/audioButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="4dp"
@@ -135,6 +137,7 @@
             </ImageView>
 
             <ImageView
+                android:id="@+id/callEndButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="4dp"

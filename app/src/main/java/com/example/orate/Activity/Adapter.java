@@ -13,11 +13,16 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.orate.Activity.Fragments.CallHistory;
+import com.example.orate.Activity.Fragments.MethodsHelperClass;
 import com.example.orate.Activity.Fragments.UserProfile;
 import com.example.orate.DataModel.UserModel;
 import com.example.orate.MainActivity;
 import com.example.orate.R;
 import com.example.orate.Repository.RoomDatabase.CallHistoryModel;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.List;
 
@@ -25,11 +30,12 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
 
     private int ACTIVITY_CODE_CONTACT = 1;
     private int ACTIVITY_CODE_HISTORY = 2;
-    private int activity_code;
+    private int ACTIVITY_CODE;
     private Context context;
+    private MethodsHelperClass methodsHelperClass;
 
     private List<UserModel> contactList;
-
+    private FirebaseDatabase firebaseDatabase;
     private List<CallHistoryModel> callHistoryModelsList;
 
     public void setContactList(List<UserModel> contactList) {
@@ -41,9 +47,10 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
     }
 
 
-    public Adapter(Context context, int activity_code) {
+    public Adapter(Context context, int ACTIVITY_CODE) {
         this.context = context;
-        this.activity_code = activity_code;
+        this.ACTIVITY_CODE = ACTIVITY_CODE;
+        firebaseDatabase = FirebaseDatabase.getInstance();
     }
 
     @NonNull
@@ -57,8 +64,9 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
 
-        if (activity_code == ACTIVITY_CODE_CONTACT) {
+        if (ACTIVITY_CODE == ACTIVITY_CODE_CONTACT) {
 //contact code
+            methodsHelperClass = MethodsHelperClass.getHelperMethods();
 
             UserModel model = contactList.get(position);
             holder.callType.setVisibility(View.GONE);
@@ -70,27 +78,44 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
                     .apply(RequestOptions.centerCropTransform())
                     .into(holder.contactImage);
 
+            holder.videoCall.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    methodsHelperClass.sendCallRequest(model.getPhoneNumber(), "video");
+                }
+            });
+
             holder.phoneCall.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
+                    methodsHelperClass.sendCallRequest(model.getPhoneNumber(), "audio");
                 }
             });
 
 
-        } else {
+        } else if (ACTIVITY_CODE == ACTIVITY_CODE_HISTORY) {
 
 //            call history code
             CallHistoryModel model = callHistoryModelsList.get(position);
             holder.phoneCall.setVisibility(View.GONE);
-            holder.contactName.setText(model.getContactName());
-            holder.about.setText(model.getAbout());
 
+            firebaseDatabase.getReference().child("User").child(model.getFriendPhoneNumber()).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
 //            contact profile image setting
-            Glide.with(context)
-                    .load(model.getProfilePictureSrc())
-                    .apply(RequestOptions.centerCropTransform())
-                    .into(holder.contactImage);
+                    Glide.with(context)
+                            .load(snapshot.child("image").getValue().toString())
+                            .apply(RequestOptions.centerCropTransform())
+                            .into(holder.contactImage);
+                    holder.contactName.setText(snapshot.child("userName").getValue().toString());
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+            holder.about.setText(model.getDate().toString());
 
 
             if (model.getMediaType() == "audio")

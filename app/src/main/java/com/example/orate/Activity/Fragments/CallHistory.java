@@ -38,8 +38,12 @@ public class CallHistory extends Fragment {
 
         binding.historyRecyclerView.setAdapter(adapter);
         binding.historyRecyclerView.setLayoutManager(new LinearLayoutManager(container.getContext()));
+
         binding = FragmentCallHistoryBinding.inflate(inflater, container, false);
-        viewModel = new ViewModelProvider(this).get(HistoryViewModel.class);
+
+        viewModel = MethodsHelperClass.getHelperMethods().historyViewModel;
+
+
         viewModel.getHistory().observe(getViewLifecycleOwner(), new Observer<List<CallHistoryModel>>() {
             @Override
             public void onChanged(List<CallHistoryModel> callHistoryModels) {
