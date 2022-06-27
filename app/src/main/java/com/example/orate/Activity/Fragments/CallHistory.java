@@ -35,21 +35,21 @@ public class CallHistory extends Fragment {
 
         Adapter adapter = new Adapter(container.getContext(), 2);
 
-
-        binding.historyRecyclerView.setAdapter(adapter);
-        binding.historyRecyclerView.setLayoutManager(new LinearLayoutManager(container.getContext()));
+//        binding.historyRecyclerView.setLayoutManager(new LinearLayoutManager(container.getContext()));
+//
+//        binding.historyRecyclerView.setAdapter(adapter);
 
         binding = FragmentCallHistoryBinding.inflate(inflater, container, false);
 
-        viewModel = MethodsHelperClass.getHelperMethods().historyViewModel;
-
-
-        viewModel.getHistory().observe(getViewLifecycleOwner(), new Observer<List<CallHistoryModel>>() {
-            @Override
-            public void onChanged(List<CallHistoryModel> callHistoryModels) {
-                adapter.setCallHistoryModelsList(callHistoryModels);
-            }
-        });
+//        viewModel = MethodsHelperClass.getHelperMethods().historyViewModel;
+//
+//
+//        viewModel.getHistory().observe(getViewLifecycleOwner(), new Observer<List<CallHistoryModel>>() {
+//            @Override
+//            public void onChanged(List<CallHistoryModel> callHistoryModels) {
+//                adapter.setCallHistoryModelsList(callHistoryModels);
+//            }
+//        });
 
 
         return binding.getRoot();

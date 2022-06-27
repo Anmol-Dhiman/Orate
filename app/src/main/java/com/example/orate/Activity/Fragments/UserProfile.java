@@ -34,30 +34,30 @@ public class UserProfile extends Fragment {
                              Bundle savedInstanceState) {
 
         binding = FragmentUserProfileBinding.inflate(inflater, container, false);
-        database = FirebaseDatabase.getInstance();
-        storage = FirebaseStorage.getInstance();
-        String phoneNumber = getArguments().getString("PhoneNumber");
-
-        database.getReference().child("User").child(phoneNumber).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                UserModel user = snapshot.getValue(UserModel.class);
-                Glide.with(container.getContext())
-                        .load(user.getImage())
-                        .apply(RequestOptions.centerCropTransform())
-                        .into(binding.profileImage);
-
-                binding.userNameProfileFragment.setText(user.getUserName());
-                binding.fullNameProfileFragment.setText(user.getFullName());
-                binding.aboutProfileFargment.setText(user.getAbout());
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(container.getContext(), "There is some issue with connectivity please try again....", Toast.LENGTH_LONG).show();
-            }
-        });
+//        database = FirebaseDatabase.getInstance();
+//        storage = FirebaseStorage.getInstance();
+//        String phoneNumber = getArguments().getString("PhoneNumber");
+//
+//        database.getReference().child("User").child(phoneNumber).addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                UserModel user = snapshot.getValue(UserModel.class);
+//                Glide.with(container.getContext())
+//                        .load(user.getImage())
+//                        .apply(RequestOptions.centerCropTransform())
+//                        .into(binding.profileImage);
+//
+//                binding.userNameProfileFragment.setText(user.getUserName());
+//                binding.fullNameProfileFragment.setText(user.getFullName());
+//                binding.aboutProfileFargment.setText(user.getAbout());
+//
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//                Toast.makeText(container.getContext(), "There is some issue with connectivity please try again....", Toast.LENGTH_LONG).show();
+//            }
+//        });
 
         return binding.getRoot();
     }

@@ -22,235 +22,241 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/constraintLayout2"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
             android:layout_marginTop="32dp"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView11">
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/constraintLayout"
+                android:id="@+id/constraintLayout2"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                android:layout_height="wrap_content">
 
-                <!--        here we have to set the status image -->
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/profileImageCardView"
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/constraintLayout"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:cardCornerRadius="20dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
 
-                    <ImageView
-                        android:id="@+id/profileImage"
-                        android:layout_width="@dimen/profileFragmentImage"
-                        android:layout_height="@dimen/profileFragmentImage"
-                        android:background="@drawable/profile_fragment_image"
-                        tools:layout_editor_absoluteX="61dp"
-                        tools:layout_editor_absoluteY="96dp"
-                        tools:srcCompat="@tools:sample/avatars" />
+                    <!--        here we have to set the status image -->
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/profileImageCardView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:cardCornerRadius="20dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <ImageView
+                            android:id="@+id/profileImage"
+                            android:layout_width="@dimen/profileFragmentImage"
+                            android:layout_height="@dimen/profileFragmentImage"
+                            android:background="@drawable/profile_fragment_image"
+                            tools:layout_editor_absoluteX="61dp"
+                            tools:layout_editor_absoluteY="96dp"
+                            tools:srcCompat="@tools:sample/avatars" />
 
 
-                </androidx.cardview.widget.CardView>
+                    </androidx.cardview.widget.CardView>
 
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                <LinearLayout
+                    android:id="@+id/linearLayout4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/profileFragmentImage"
+                    android:layout_marginStart="8dp"
+                    android:orientation="vertical"
+                    android:weightSum="2"
+                    app:layout_constraintStart_toEndOf="@+id/constraintLayout"
+                    app:layout_constraintTop_toTopOf="parent">
+
+
+                    <TextView
+                        android:id="@+id/contactName"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:gravity="bottom"
+                        android:text="Ronak"
+                        android:textColor="@color/backgroundColor"
+                        android:textSize="18dp"
+                        android:textStyle="bold" />
+
+
+                    <TextView
+                        android:id="@+id/about"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:text="Online"
+                        android:textColor="#58629E" />
+                </LinearLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-
             <LinearLayout
-                android:id="@+id/linearLayout4"
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/profileFragmentImage"
-                android:layout_marginStart="8dp"
+                android:id="@+id/linearLayout5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginRight="16dp"
                 android:orientation="vertical"
-                android:weightSum="2"
-                app:layout_constraintStart_toEndOf="@+id/constraintLayout"
-                app:layout_constraintTop_toTopOf="parent">
-
-
-                <TextView
-                    android:id="@+id/contactName"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:gravity="bottom"
-                    android:text="Ronak"
-                    android:textColor="@color/backgroundColor"
-                    android:textSize="18dp"
-                    android:textStyle="bold" />
-
-
-                <TextView
-                    android:id="@+id/about"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:text="Online"
-                    android:textColor="#58629E"/>
-            </LinearLayout>
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <LinearLayout
-            android:id="@+id/linearLayout5"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="32dp"
-            android:layout_marginRight="16dp"
-            android:orientation="vertical"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/constraintLayout2">
-
-
-            <!--         for the user name text -->
-
-
-            <!--            for the full name text-->
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="8dp"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/textView10"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Username"
-                    android:textColor="@color/backgroundColor"
-                    android:textSize="16dp" />
-
-                <TextView
-                    android:id="@+id/userNameProfileFragment"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Jerry"
-                    android:textColor="@color/textColor"
-                    android:textSize="16dp" />
-
-                <ImageView
-                    android:id="@+id/imageView3"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="2dp"
-                    android:src="@drawable/ic_bottom_line" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="8dp"
-                android:orientation="vertical">
-
-                <TextView
-
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Full Name"
-                    android:textColor="@color/backgroundColor"
-                    android:textSize="16dp" />
-
-                <TextView
-
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Ronak Jaiswal"
-                    android:id="@+id/fullNameProfileFragment"
-                    android:textColor="@color/textColor"
-                    android:textSize="16dp" />
-
-                <ImageView
-
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="2dp"
-                    android:src="@drawable/ic_bottom_line" />
-            </LinearLayout>
-
-
-            <!--            for the bio text-->
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="8dp"
-                android:orientation="vertical">
-
-                <TextView
-
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="About"
-                    android:textColor="@color/backgroundColor"
-                    android:textSize="16dp" />
-
-                <TextView
-
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Ronak"
-                    android:id="@+id/aboutProfileFargment"
-                    android:textColor="@color/textColor"
-                    android:textSize="16dp" />
-
-                <ImageView
-
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="2dp"
-                    android:src="@drawable/ic_bottom_line" />
-            </LinearLayout>
-
-
-        </LinearLayout>
-
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout5">
-
-            <Button
-                android:id="@+id/button"
-                android:layout_width="@dimen/widthCommon"
-                android:layout_height="@dimen/heightCommon"
-                android:background="@drawable/proflie_sign_out_button"
-                android:gravity="center_vertical"
-                android:paddingLeft="16dp"
-                android:text="Sign out"
-                android:textAllCaps="false"
-                android:textColor="@color/backgroundColor"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.0" />
+                app:layout_constraintTop_toBottomOf="@+id/constraintLayout2">
 
-            <ImageView
-                android:id="@+id/imageView4"
+
+                <!--         for the user name text -->
+
+
+                <!--            for the full name text-->
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="16dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/textView10"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Username"
+                        android:textColor="@color/backgroundColor"
+                        android:textSize="16dp" />
+
+                    <TextView
+                        android:id="@+id/userNameProfileFragment"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Jerry"
+                        android:textColor="@color/textColor"
+                        android:textSize="16dp" />
+
+                    <ImageView
+                        android:id="@+id/imageView3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:src="@drawable/ic_bottom_line" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="16dp"
+                    android:orientation="vertical">
+
+                    <TextView
+
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Full Name"
+                        android:textColor="@color/backgroundColor"
+                        android:textSize="16dp" />
+
+                    <TextView
+
+                        android:id="@+id/fullNameProfileFragment"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Ronak Jaiswal"
+                        android:textColor="@color/textColor"
+                        android:textSize="16dp" />
+
+                    <ImageView
+
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:src="@drawable/ic_bottom_line" />
+                </LinearLayout>
+
+
+                <!--            for the bio text-->
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="16dp"
+                    android:orientation="vertical">
+
+                    <TextView
+
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="About"
+                        android:textColor="@color/backgroundColor"
+                        android:textSize="16dp" />
+
+                    <TextView
+
+                        android:id="@+id/aboutProfileFargment"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Ronak"
+                        android:textColor="@color/textColor"
+                        android:textSize="16dp" />
+
+                    <ImageView
+
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:src="@drawable/ic_bottom_line" />
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="16dp"
-                android:src="@drawable/ic_signout_button"
-                app:layout_constraintBottom_toBottomOf="@+id/button"
-                app:layout_constraintEnd_toEndOf="@+id/button"
-                app:layout_constraintTop_toTopOf="@+id/button" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                android:layout_marginTop="32dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout5">
 
+                <Button
+                    android:id="@+id/button"
+                    android:layout_width="@dimen/widthCommon"
+                    android:layout_height="@dimen/heightCommon"
+                    android:layout_marginTop="32dp"
+                    android:background="@drawable/proflie_sign_out_button"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="16dp"
+                    android:text="Sign out"
+                    android:textAllCaps="false"
+                    android:textColor="@color/backgroundColor"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.0" />
+
+                <ImageView
+                    android:id="@+id/imageView4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="16dp"
+                    android:src="@drawable/ic_signout_button"
+                    app:layout_constraintBottom_toBottomOf="@+id/button"
+                    app:layout_constraintEnd_toEndOf="@+id/button"
+                    app:layout_constraintTop_toTopOf="@+id/button" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

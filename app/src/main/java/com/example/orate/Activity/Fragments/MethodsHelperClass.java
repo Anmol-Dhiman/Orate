@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.room.TypeConverters;
 
 
 import com.example.orate.DataModel.DateConverter;
@@ -136,7 +137,8 @@ public class MethodsHelperClass {
             public void onClick(View view) {
 
 //               incoming call accepted room input
-                historyViewModel.insert(new CallHistoryModel(mediaType, friendPhoneNumber, "incoming", ));
+
+                historyViewModel.insert(new CallHistoryModel(mediaType, friendPhoneNumber, "incoming"));
                 binding.callAlertMessage.setVisibility(View.GONE);
                 firebaseDatabase.getReference().child("User").child(phoneNumber).child("isConnected").setValue(true);
 
@@ -150,7 +152,7 @@ public class MethodsHelperClass {
 
 //                incomingMissedCall room input
 //                date variable
-                historyViewModel.insert(new CallHistoryModel(mediaType, friendPhoneNumber, "incomingMissedCall"));
+//                historyViewModel.insert(new CallHistoryModel(mediaType, friendPhoneNumber, "incomingMissedCall"));
                 binding.callAlertMessage.setVisibility(View.GONE);
                 firebaseDatabase.getReference().child("User").child(phoneNumber).child("incoming").setValue(false);
                 firebaseDatabase.getReference().child("User").child(phoneNumber).child("isConnected").setValue(false);
@@ -196,9 +198,9 @@ public class MethodsHelperClass {
 
 //                                we have to store date here
                                     if (snapshot.getValue().toString() == "true") {
-                                        historyViewModel.insert(new CallHistoryModel(mediaType, friendPhoneNumber, "outgoing", ));
+//                                        historyViewModel.insert(new CallHistoryModel(mediaType, friendPhoneNumber, "outgoing", ));
                                     } else {
-                                        historyViewModel.insert(new CallHistoryModel(mediaType, friendPhoneNumber, "outgoingMissedCall", ));
+//                                        historyViewModel.insert(new CallHistoryModel(mediaType, friendPhoneNumber, "outgoingMissedCall", ));
                                     }
                                 }
 

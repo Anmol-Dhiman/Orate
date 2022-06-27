@@ -20,7 +20,7 @@
         <item name="android:backgroundTint">@color/backgroundColor</item>
         <item name="android:textStyle">bold</item>
     </style>
-
+z
     <style name="bigButtonTheme">
         <item name="android:layout_width">@dimen/widthCommon</item>
         <item name="android:height">70dp</item>
@@ -33,7 +33,7 @@
         <item name="android:layout_width">@dimen/widthCommon</item>
         <item name="android:layout_height">@dimen/heightCommon</item>
         <item name="android:background">@drawable/inputbox</item>
-<item name="android:paddingLeft">8dp</item>
+         <item name="android:paddingLeft">8dp</item>
     </style>
 
     <style name="searchBoxTheme">

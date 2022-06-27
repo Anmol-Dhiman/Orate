@@ -12,11 +12,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
-import com.example.orate.Activity.Fragments.CallHistory;
 import com.example.orate.Activity.Fragments.MethodsHelperClass;
-import com.example.orate.Activity.Fragments.UserProfile;
 import com.example.orate.DataModel.UserModel;
-import com.example.orate.MainActivity;
 import com.example.orate.R;
 import com.example.orate.Repository.RoomDatabase.CallHistoryModel;
 import com.google.firebase.database.DataSnapshot;
@@ -115,7 +112,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
 
                 }
             });
-            holder.about.setText(model.getDate().toString());
+            holder.about.setText("date");
 
 
             if (model.getMediaType() == "audio")

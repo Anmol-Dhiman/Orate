@@ -28,6 +28,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ContactList extends Fragment {
@@ -36,7 +37,8 @@ public class ContactList extends Fragment {
     private FragmentContactListBinding binding;
     private FirebaseDatabase firebaseDatabase;
     private FirebaseAuth auth;
-    private List<UserModel> contactsList;
+    private List<UserModel> contactsList = new ArrayList<>();
+
     private Adapter adapter;
 
     @Override
@@ -44,32 +46,32 @@ public class ContactList extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = FragmentContactListBinding.inflate(inflater, container, false);
-        firebaseDatabase = FirebaseDatabase.getInstance();
-        auth = FirebaseAuth.getInstance();
-        adapter = new Adapter(container.getContext(), CONTACT_LIST_ACTIVITY_CODE);
-
-
-        binding.contactRecyclerView.setAdapter(adapter);
-        binding.contactRecyclerView.setLayoutManager(new LinearLayoutManager(container.getContext()));
-        firebaseDatabase.getReference().child("User").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                contactsList.clear();
-                for (DataSnapshot dataSnapshots : snapshot.getChildren()) {
-                    UserModel user = dataSnapshots.getValue(UserModel.class);
-                    if (!user.getPhoneNumber().equals(auth.getUid())) {
-                        addInList(user);
-                    }
-
-                }
-                adapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
+//        firebaseDatabase = FirebaseDatabase.getInstance();
+//        auth = FirebaseAuth.getInstance();
+//        adapter = new Adapter(container.getContext(), CONTACT_LIST_ACTIVITY_CODE);
+//
+//
+//        binding.contactRecyclerView.setAdapter(adapter);
+//        binding.contactRecyclerView.setLayoutManager(new LinearLayoutManager(container.getContext()));
+//        firebaseDatabase.getReference().child("User").addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                contactsList.clear();
+//                for (DataSnapshot dataSnapshots : snapshot.getChildren()) {
+//                    UserModel user = dataSnapshots.getValue(UserModel.class);
+//                    if (!user.getPhoneNumber().equals(auth.getUid())) {
+//                        addInList(user);
+//                    }
+//
+//                }
+//                adapter.notifyDataSetChanged();
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//
+//            }
+//        });
 
 
 //TODO implement searchView
@@ -98,22 +100,22 @@ public class ContactList extends Fragment {
 
     }
 
-    private void addInList(UserModel user) {
-        ContentResolver contentResolver = getActivity().getContentResolver();
-        Uri uri = ContactsContract.CommonDataKinds.Phone.CONTENT_URI;
-        Cursor cursor = contentResolver.query(uri, null, null, null, null);
-        cursor.moveToFirst();
-
-        if (cursor.getCount() > 0) {
-            while (cursor.moveToNext()) {
-                @SuppressLint("Range") String number = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-                if (user.getPhoneNumber().equals(number) || ("+91" + user.getPhoneNumber()).equals(number)) {
-                    contactsList.add(user);
-                    return;
-                }
-            }
-        }
-
-
-    }
+//    private void addInList(UserModel user) {
+//        ContentResolver contentResolver = getActivity().getContentResolver();
+//        Uri uri = ContactsContract.CommonDataKinds.Phone.CONTENT_URI;
+//        Cursor cursor = contentResolver.query(uri, null, null, null, null);
+//        cursor.moveToFirst();
+//
+//        if (cursor.getCount() > 0) {
+//            while (cursor.moveToNext()) {
+//                @SuppressLint("Range") String number = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+//                if (user.getPhoneNumber().equals(number) || ("+91" + user.getPhoneNumber()).equals(number)) {
+//                    contactsList.add(user);
+//                    return;
+//                }
+//            }
+//        }
+//
+//
+//    }
 }

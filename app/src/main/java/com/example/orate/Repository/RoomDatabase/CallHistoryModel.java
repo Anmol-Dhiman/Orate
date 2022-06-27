@@ -6,7 +6,6 @@ import androidx.room.TypeConverters;
 
 import com.example.orate.DataModel.DateConverter;
 
-import java.sql.Date;
 
 
 @Entity(tableName = "callHistory")
@@ -22,15 +21,14 @@ public class CallHistoryModel {
     private String callType;
 
 
-    @TypeConverters({DateConverter.class})
-    private Date date;
 
-    public CallHistoryModel(String mediaType, String friendPhoneNumber, String callType, Date date) {
+
+    public CallHistoryModel(String mediaType, String friendPhoneNumber, String callType) {
 
         this.mediaType = mediaType;
         this.friendPhoneNumber = friendPhoneNumber;
         this.callType = callType;
-        this.date = date;
+//        this.date = date;
     }
 
 
@@ -65,12 +63,12 @@ public class CallHistoryModel {
     public void setCallType(String callType) {
         this.callType = callType;
     }
-
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
-    }
+//
+//    public Date getDate() {
+//        return date;
+//    }
+//
+//    public void setDate(Date date) {
+//        this.date = date;
+//    }
 }
