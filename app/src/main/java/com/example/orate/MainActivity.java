@@ -7,17 +7,15 @@ import androidx.lifecycle.ViewModelProvider;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.View;
 
 
 import com.example.orate.Activity.Fragments.CallHistory;
 import com.example.orate.Activity.Fragments.ContactList;
-import com.example.orate.Activity.Fragments.MethodsHelperClass;
+import com.example.orate.MethodHelperClasses.MainActivityHelper;
 import com.example.orate.Activity.Fragments.UserProfile;
 import com.example.orate.ViewModel.HistoryViewModel;
 import com.example.orate.databinding.ActivityMainBinding;
 
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 
 
@@ -29,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseDatabase firebaseDatabase;
     private boolean isAudio = true;
     private boolean isVideo = true;
-    private MethodsHelperClass helperClass = null;
+    private MainActivityHelper helperClass = null;
     private HistoryViewModel historyViewModel;
 
 
@@ -41,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         replaceFragment(new ContactList());
         firebaseDatabase = FirebaseDatabase.getInstance();
-        helperClass = MethodsHelperClass.getHelperMethods();
+        helperClass = MainActivityHelper.getHelperMethods();
         historyViewModel = new ViewModelProvider(this).get(HistoryViewModel.class);
 
         SharedPreferences preferences = getSharedPreferences("DATA", MODE_PRIVATE);
@@ -104,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
 
         helperClass.setHistoryViewModel(historyViewModel);
         helperClass.setBinding(binding);
-        helperClass.setContext(MainActivity.this);
+        helperClass.setMainActivityContext(MainActivity.this);
         helperClass.setPhoneNumber(phoneNumber);
         helperClass.setUpWebView();
     }
@@ -115,11 +113,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-//
-//    @Override
-//    protected void onDestroy() {
-//        firebaseDatabase.getReference().child("User").child(phoneNumber).child("isAvailable").setValue(false);
-//        binding.webView.loadUrl("about:blank");
-//        super.onDestroy();
-//    }
+
+    @Override
+    protected void onDestroy() {
+        firebaseDatabase.getReference().child("User").child(phoneNumber).child("isAvailable").setValue(false);
+        binding.webView.loadUrl("about:blank");
+        super.onDestroy();
+    }
 }

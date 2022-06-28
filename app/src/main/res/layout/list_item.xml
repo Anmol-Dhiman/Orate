@@ -84,7 +84,7 @@
                     app:srcCompat="@drawable/ic_incoming_call" />
 
                 <TextView
-                    android:id="@+id/about"
+                    android:id="@+id/connectivityStatus"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="1"

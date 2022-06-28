@@ -1,4 +1,4 @@
-package com.example.orate.Activity.Fragments;
+package com.example.orate.MethodHelperClasses;
 
 
 import android.content.Context;
@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
+import com.example.orate.Activity.Fragments.JavaScriptInterface;
 import com.example.orate.Repository.RoomDatabase.CallHistoryModel;
 import com.example.orate.ViewModel.HistoryViewModel;
 import com.example.orate.databinding.ActivityMainBinding;
@@ -22,9 +23,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 
-public class MethodsHelperClass {
+public class MainActivityHelper {
 
-    private static MethodsHelperClass helperMethods = null;
+    private static MainActivityHelper helperMethods = null;
     public HistoryViewModel historyViewModel = null;
     private ActivityMainBinding binding;
     private String phoneNumber;
@@ -39,7 +40,7 @@ public class MethodsHelperClass {
         this.historyViewModel = historyViewModel;
     }
 
-    public void setContext(Context context) {
+    public void setMainActivityContext(Context context) {
         this.context = context;
     }
 
@@ -53,17 +54,16 @@ public class MethodsHelperClass {
     }
 
 
-    public MethodsHelperClass() {
+    public MainActivityHelper() {
         firebaseDatabase = FirebaseDatabase.getInstance();
     }
 
-    public static MethodsHelperClass getHelperMethods() {
+    public static MainActivityHelper getHelperMethods() {
 
         if (helperMethods == null) {
-            helperMethods = new MethodsHelperClass();
+            helperMethods = new MainActivityHelper();
         }
 
-        Log.d("main", "getHelperMethods: " + helperMethods);
         return helperMethods;
 
     }
@@ -130,7 +130,7 @@ public class MethodsHelperClass {
 
 
     private void onCallRequest(String caller) {
-        if (caller == "false" || caller == null) return;
+        if (caller == "false" || caller == null || caller == "none") return;
 
 //        TODO show the call notification
         binding.callAlertMessage.setVisibility(View.VISIBLE);

@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
-import com.example.orate.Activity.Fragments.MethodsHelperClass;
+import com.example.orate.MethodHelperClasses.MainActivityHelper;
 import com.example.orate.DataModel.UserModel;
 import com.example.orate.R;
 import com.example.orate.Repository.RoomDatabase.CallHistoryModel;
@@ -29,11 +29,12 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
     private int ACTIVITY_CODE_HISTORY = 2;
     private int ACTIVITY_CODE;
     private Context context;
-    private MethodsHelperClass methodsHelperClass;
+    private MainActivityHelper mainActivityHelper;
 
     private List<UserModel> contactList;
     private FirebaseDatabase firebaseDatabase;
     private List<CallHistoryModel> callHistoryModelsList;
+
 
     public void setContactList(List<UserModel> contactList) {
         this.contactList = contactList;
@@ -63,7 +64,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
 
         if (ACTIVITY_CODE == ACTIVITY_CODE_CONTACT) {
 //contact code
-            methodsHelperClass = MethodsHelperClass.getHelperMethods();
+            mainActivityHelper = MainActivityHelper.getHelperMethods();
 
             UserModel model = contactList.get(position);
             holder.callType.setVisibility(View.GONE);
@@ -78,14 +79,14 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
             holder.videoCall.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    methodsHelperClass.sendCallRequest(model.getPhoneNumber(), "video");
+                    mainActivityHelper.sendCallRequest(model.getPhoneNumber(), "video");
                 }
             });
 
             holder.phoneCall.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    methodsHelperClass.sendCallRequest(model.getPhoneNumber(), "audio");
+                    mainActivityHelper.sendCallRequest(model.getPhoneNumber(), "audio");
                 }
             });
 
@@ -152,7 +153,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
             videoCall = itemView.findViewById(R.id.videoCall);
             callType = itemView.findViewById(R.id.callType);
             contactName = itemView.findViewById(R.id.contactName);
-            about = itemView.findViewById(R.id.about);
+            about = itemView.findViewById(R.id.connectivityStatus);
         }
     }
 }

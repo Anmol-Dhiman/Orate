@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -81,8 +82,10 @@ public class ProfileDetails extends AppCompatActivity {
 
 
 //                intent have to be started here
+
                 startActivity(new Intent(ProfileDetails.this, MainActivity.class));
                 finish();
+
             }
         });
 
@@ -115,6 +118,7 @@ public class ProfileDetails extends AppCompatActivity {
     }
 
 
+
     private void userDataEntry() {
 
         userName = binding.userName.getText().toString().trim();
@@ -139,7 +143,7 @@ public class ProfileDetails extends AppCompatActivity {
                                 @Override
                                 public void onSuccess(Uri uri) {
                                     imageUri = uri.toString();
-                                    firebaseAuthViewModel.register(new UserModel(userName, imageUri, about, userFullName, phoneNumber, "false", "none", "false"));
+                                    firebaseAuthViewModel.register(new UserModel(userName, imageUri, about, userFullName, phoneNumber, "false", "false", "false"));
 
                                 }
                             });

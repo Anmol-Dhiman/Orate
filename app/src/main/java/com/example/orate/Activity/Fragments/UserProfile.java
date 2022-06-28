@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -22,11 +23,16 @@ import com.example.orate.Activity.SingInTimeActivities.Intro;
 import com.example.orate.R;
 
 import com.example.orate.databinding.FragmentUserProfileBinding;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 
 public class UserProfile extends Fragment {
 
     private FragmentUserProfileBinding binding;
+    private FirebaseDatabase database = null;
     private String imageUrl = null;
     private SharedPreferences preferences = null;
 
@@ -36,9 +42,28 @@ public class UserProfile extends Fragment {
                              Bundle savedInstanceState) {
 
         binding = FragmentUserProfileBinding.inflate(inflater, container, false);
-
-
         preferences = getActivity().getSharedPreferences("DATA", MODE_PRIVATE);
+        database = FirebaseDatabase.getInstance();
+
+
+
+        database.getReference().child("User").child(preferences.getString("phoneNumber", "")).child("isAvailable").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.getValue().toString() == "false") {
+                    binding.connectivityStatus.setText("Offline");
+                } else {
+                    binding.connectivityStatus.setText("Online");
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+
         imageUrl = preferences.getString("imageUrl", null);
         if (imageUrl != null) {
             Glide.with(getContext())

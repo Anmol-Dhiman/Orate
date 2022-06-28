@@ -2,11 +2,13 @@ package com.example.orate.Activity.Fragments;
 
 import android.webkit.JavascriptInterface;
 
+import com.example.orate.MethodHelperClasses.MainActivityHelper;
+
 
 public class JavaScriptInterface {
-    private MethodsHelperClass helperClass;
+    private MainActivityHelper helperClass;
 
-    public JavaScriptInterface(MethodsHelperClass helperClass) {
+    public JavaScriptInterface(MainActivityHelper helperClass) {
         this.helperClass = helperClass;
     }
 
