@@ -62,10 +62,7 @@ public class MainActivity extends AppCompatActivity {
                     replaceFragment(new CallHistory());
                     break;
                 case R.id.userProfile:
-                    UserProfile userProfile = new UserProfile();
-                    userProfile.setArguments(bundle);
-                    userProfile.setProfile();
-                    replaceFragment(userProfile);
+                    replaceFragment(new UserProfile());
                     break;
             }
 

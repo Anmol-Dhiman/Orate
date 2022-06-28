@@ -19,6 +19,7 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -27,7 +28,11 @@ import com.example.orate.MainActivity;
 import com.example.orate.Repository.Firebase.FirebaseMethods;
 import com.example.orate.ViewModel.FirebaseAuthViewModel;
 import com.example.orate.databinding.ActivityProflieDetailsBinding;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 
 public class ProfileDetails extends AppCompatActivity {
@@ -37,15 +42,19 @@ public class ProfileDetails extends AppCompatActivity {
     private ActivityProflieDetailsBinding binding;
     private ActivityResultLauncher<String> launcher;
     private FirebaseAuthViewModel firebaseAuthViewModel;
+    private FirebaseStorage storage = null;
     private String imageUri = null;
     private String phoneNumber = null;
+    private String userName = null;
+    private String userFullName = null;
+    private String about = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityProflieDetailsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
+        storage = FirebaseStorage.getInstance();
 
         SharedPreferences preferences = getSharedPreferences("DATA", MODE_PRIVATE);
         phoneNumber = preferences.getString("phoneNumber", "");
@@ -57,6 +66,20 @@ public class ProfileDetails extends AppCompatActivity {
             public void onChanged(FirebaseUser firebaseUser) {
                 if (firebaseUser != null)
                     Toast.makeText(ProfileDetails.this, "User has been created!", Toast.LENGTH_SHORT).show();
+//here we will save the data of use locally
+
+
+                SharedPreferences.Editor editor = preferences.edit();
+                editor.putString("userName", userName).apply();
+                Log.d("main", "" + userName);
+                editor.putString("userFullName", userFullName).apply();
+                Log.d("main", "" + userFullName);
+                editor.putString("imageUrl", imageUri).apply();
+                Log.d("main", "" + imageUri);
+                editor.putString("about", about).apply();
+                Log.d("main", "" + about);
+
+
 //                intent have to be started here
                 startActivity(new Intent(ProfileDetails.this, MainActivity.class));
                 finish();
@@ -66,25 +89,7 @@ public class ProfileDetails extends AppCompatActivity {
         binding.startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String userName = binding.userName.getText().toString().trim();
-                String userFullName = binding.userFullName.getText().toString().trim();
-                String about = binding.aboutSection.getText().toString().trim();
-
-
-                if (userName.isEmpty() || userFullName.isEmpty()) {
-                    Toast.makeText(ProfileDetails.this, "Enter the details....", Toast.LENGTH_SHORT).show();
-                } else {
-                    if (about.isEmpty()) {
-                        about = "Hey there I'm using Orate!";
-                    }
-                    if (imageUri != null) {
-                        firebaseAuthViewModel.register(new UserModel(userName, imageUri, about, userFullName, phoneNumber));
-                    } else
-                        Toast.makeText(ProfileDetails.this, "Set Profile Image..", Toast.LENGTH_SHORT).show();
-
-                }
-
-
+                userDataEntry();
             }
         });
 
@@ -108,6 +113,50 @@ public class ProfileDetails extends AppCompatActivity {
             }
         });
     }
+
+
+    private void userDataEntry() {
+
+        userName = binding.userName.getText().toString().trim();
+        userFullName = binding.userFullName.getText().toString().trim();
+        about = binding.aboutSection.getText().toString().trim();
+
+
+        if (userName.isEmpty() || userFullName.isEmpty()) {
+            Toast.makeText(ProfileDetails.this, "Enter the details....", Toast.LENGTH_SHORT).show();
+        } else {
+            if (about.isEmpty()) {
+                about = "Hey there I'm using Orate!";
+            }
+            if (imageUri != null) {
+//                        here we will get the uri store the user profile image to firebase storage and get the download link
+                if (storage != null) {
+                    StorageReference reference = storage.getReference().child("Profile Image").child(phoneNumber);
+                    reference.putFile(Uri.parse(imageUri)).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            reference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                @Override
+                                public void onSuccess(Uri uri) {
+                                    imageUri = uri.toString();
+                                    firebaseAuthViewModel.register(new UserModel(userName, imageUri, about, userFullName, phoneNumber));
+
+                                }
+                            });
+                        }
+                    });
+                } else {
+                    imageUri = null;
+                    Toast.makeText(this, "Connectivity issue.", Toast.LENGTH_SHORT).show();
+                }
+
+            } else
+                Toast.makeText(ProfileDetails.this, "Set Profile Image..", Toast.LENGTH_SHORT).show();
+
+        }
+
+    }
+
 
     private boolean checkPermission() {
         return ContextCompat.checkSelfPermission(ProfileDetails.this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(ProfileDetails.this, Manifest.permission.INTERNET) == PackageManager.PERMISSION_GRANTED;

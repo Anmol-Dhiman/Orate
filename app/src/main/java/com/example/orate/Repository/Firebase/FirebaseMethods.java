@@ -21,6 +21,7 @@ import androidx.lifecycle.MutableLiveData;
 import com.example.orate.Activity.SingInTimeActivities.OtpVerification;
 import com.example.orate.Activity.SingInTimeActivities.ProfileDetails;
 import com.example.orate.DataModel.UserModel;
+import com.example.orate.MainActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -125,27 +126,16 @@ public class FirebaseMethods {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         FirebaseStorage storage = FirebaseStorage.getInstance();
 
-        StorageReference reference = storage.getReference().child("Profile Image").child(user.getPhoneNumber());
-        reference.putFile(Uri.parse(user.getImage())).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+
+        database.getReference().child("User").child(user.getPhoneNumber()).setValue(user).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                reference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                    @Override
-                    public void onSuccess(Uri uri) {
-                        Log.d("main", "on user auth clear:  " + user);
-                        user.setImage(uri.toString());
-                        database.getReference().child("User").child(user.getPhoneNumber()).setValue(user).addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void unused) {
-                                userMutableLiveData.postValue(auth.getCurrentUser());
-                            }
-                        });
-                    }
-                });
+            public void onSuccess(Void unused) {
+
+                userMutableLiveData.postValue(auth.getCurrentUser());
             }
         });
-
     }
+
 
     public static void showExitDialog(Context context) {
         new AlertDialog.Builder(context).setTitle("Do you want to exit?").setPositiveButton("No", new DialogInterface.OnClickListener() {

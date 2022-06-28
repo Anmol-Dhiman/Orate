@@ -1,11 +1,16 @@
 package com.example.orate.Activity.Fragments;
 
+import static android.content.Context.MODE_PRIVATE;
+
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,23 +18,18 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
-import com.example.orate.DataModel.UserModel;
-import com.example.orate.MainActivity;
+import com.example.orate.Activity.SingInTimeActivities.Intro;
 import com.example.orate.R;
+
 import com.example.orate.databinding.FragmentUserProfileBinding;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
+
 
 public class UserProfile extends Fragment {
 
     private FragmentUserProfileBinding binding;
-    private FirebaseDatabase database;
-    private String phoneNumber = "";
-    private FirebaseStorage storage;
+    private String imageUrl = null;
+    private SharedPreferences preferences = null;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -37,47 +37,74 @@ public class UserProfile extends Fragment {
 
         binding = FragmentUserProfileBinding.inflate(inflater, container, false);
 
-        database = FirebaseDatabase.getInstance();
-        storage = FirebaseStorage.getInstance();
 
-        phoneNumber = new MainActivity().getPhoneNumber();
-        Log.d("main", "onCreateView: " + phoneNumber);
+        preferences = getActivity().getSharedPreferences("DATA", MODE_PRIVATE);
+        imageUrl = preferences.getString("imageUrl", null);
+        if (imageUrl != null) {
+            Glide.with(getContext())
+                    .load(imageUrl)
+                    .apply(RequestOptions.centerCropTransform())
+                    .into(binding.profileImage);
+        } else {
+            binding.profileImage.setImageResource(R.drawable.profile_fragment_image);
+        }
+
+        binding.userNameProfileFragment.setText(preferences.getString("userName", ""));
+        binding.fullNameProfileFragment.setText(preferences.getString("userFullName", ""));
+        binding.aboutProfileFargment.setText(preferences.getString("about", ""));
+        binding.userNameFragmentWithStatus.setText(preferences.getString("userName", ""));
+
+
+        binding.signOutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new AlertDialog.Builder(getContext())
+                        .setTitle("Do you want to sign out?")
+                        .setPositiveButton("No", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        }).setNegativeButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                singOut();
+
+                            }
+                        }).create().show();
+            }
+        });
+
 
         return binding.getRoot();
     }
 
-
-    public void setProfile() {
-        if (phoneNumber != null) {
-            database.getReference().child("User").child(phoneNumber).addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    try {
-                        UserModel user = snapshot.getValue(UserModel.class);
-                        Glide.with(getContext())
-                                .load(user.getImage())
-                                .apply(RequestOptions.centerCropTransform())
-                                .into(binding.profileImage);
-
-                        binding.userNameProfileFragment.setText(user.getUserName());
-                        binding.fullNameProfileFragment.setText(user.getFullName());
-                        binding.aboutProfileFargment.setText(user.getAbout());
-
-                        binding.userNameFragmentWithStatus.setText(user.getUserName());
-
-                    } catch (Exception e) {
-                        Toast.makeText(getContext(), "Network issue.", Toast.LENGTH_SHORT).show();
-                    }
+    private void singOut() {
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString("phoneNumber", "");
+        editor.putString("imageUrl", null);
+        editor.putString("userName", "");
+        editor.putString("userFullName", "");
+        editor.putString("about", "");
+        SharedPreferences preferences1 = getContext().getSharedPreferences("PREFERENCE", MODE_PRIVATE);
+        SharedPreferences.Editor editor1 = preferences1.edit();
+        editor1.putString("FirstTimeOpening", "yes");
 
 
-                }
+//        we have to clear the call history
 
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-                    Toast.makeText(getContext(), "There is some issue with connectivity please try again.", Toast.LENGTH_LONG).show();
-                }
-            });
-        } else
-            Toast.makeText(getContext(), "There is some issue please try again.", Toast.LENGTH_SHORT).show();
+//                HistoryViewModel viewModel = MethodsHelperClass.getHelperMethods().historyViewModel;
+//                viewModel.getHistory().observe(getViewLifecycleOwner(), new Observer<List<CallHistoryModel>>() {
+//                    @Override
+//                    public void onChanged(List<CallHistoryModel> callHistoryModels) {
+//                        callHistoryModels.clear();
+//                    }
+//                });
+
+        ((Activity) getContext()).finish();
+        Toast.makeText(getContext(), "Sign out successfully.", Toast.LENGTH_SHORT).show();
+        startActivity(new Intent(getContext(), Intro.class));
     }
+
+
 }
