@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 
@@ -16,6 +17,7 @@ import com.example.orate.Activity.Fragments.UserProfile;
 import com.example.orate.ViewModel.HistoryViewModel;
 import com.example.orate.databinding.ActivityMainBinding;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 
 
@@ -43,9 +45,13 @@ public class MainActivity extends AppCompatActivity {
 //        historyViewModel = new ViewModelProvider(this).get(HistoryViewModel.class);
 //        helperClassSetup();
 
-        phoneNumber = getIntent().getStringExtra("PhoneNumber");
+
+        SharedPreferences preferences = getSharedPreferences("DATA", MODE_PRIVATE);
+        phoneNumber = preferences.getString("phoneNumber", "");
+
         Bundle bundle = new Bundle();
         bundle.putString("PhoneNumber", phoneNumber);
+
 
         binding.bottomNavigationView.setOnItemSelectedListener(item -> {
             switch (item.getItemId()) {
@@ -58,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.userProfile:
                     UserProfile userProfile = new UserProfile();
                     userProfile.setArguments(bundle);
+                    userProfile.setProfile();
                     replaceFragment(userProfile);
                     break;
             }
@@ -108,7 +115,12 @@ public class MainActivity extends AppCompatActivity {
     private void replaceFragment(Fragment fragment) {
         getSupportFragmentManager().beginTransaction().replace(R.id.framelayout, fragment).commit();
     }
-//
+
+    public String getPhoneNumber() {
+        return "9992514648";
+    }
+
+    //
 //
 //    @Override
 //    public void onBackPressed() {

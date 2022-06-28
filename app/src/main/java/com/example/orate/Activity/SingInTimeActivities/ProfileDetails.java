@@ -13,6 +13,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import android.Manifest;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 
 import android.net.Uri;
@@ -21,7 +22,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
+import com.example.orate.DataModel.UserModel;
 import com.example.orate.MainActivity;
+import com.example.orate.Repository.Firebase.FirebaseMethods;
 import com.example.orate.ViewModel.FirebaseAuthViewModel;
 import com.example.orate.databinding.ActivityProflieDetailsBinding;
 import com.google.firebase.auth.FirebaseUser;
@@ -42,9 +45,10 @@ public class ProfileDetails extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityProflieDetailsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        phoneNumber = getIntent().getStringExtra("PhoneNumber");
 
 
+        SharedPreferences preferences = getSharedPreferences("DATA", MODE_PRIVATE);
+        phoneNumber = preferences.getString("phoneNumber", "");
 
 
         firebaseAuthViewModel = new ViewModelProvider(this).get(FirebaseAuthViewModel.class);
@@ -54,7 +58,8 @@ public class ProfileDetails extends AppCompatActivity {
                 if (firebaseUser != null)
                     Toast.makeText(ProfileDetails.this, "User has been created!", Toast.LENGTH_SHORT).show();
 //                intent have to be started here
-                startActivity(new Intent(ProfileDetails.this, MainActivity.class).putExtra("PhoneNumber", phoneNumber));
+                startActivity(new Intent(ProfileDetails.this, MainActivity.class));
+                finish();
             }
         });
 
@@ -73,7 +78,7 @@ public class ProfileDetails extends AppCompatActivity {
                         about = "Hey there I'm using Orate!";
                     }
                     if (imageUri != null) {
-                        firebaseAuthViewModel.register(userName, about, userFullName, phoneNumber, imageUri);
+                        firebaseAuthViewModel.register(new UserModel(userName, imageUri, about, userFullName, phoneNumber));
                     } else
                         Toast.makeText(ProfileDetails.this, "Set Profile Image..", Toast.LENGTH_SHORT).show();
 
@@ -113,4 +118,8 @@ public class ProfileDetails extends AppCompatActivity {
     }
 
 
+    @Override
+    public void onBackPressed() {
+        FirebaseMethods.showExitDialog(this);
+    }
 }

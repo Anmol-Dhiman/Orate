@@ -25,8 +25,8 @@ public class FirebaseAuthViewModel extends AndroidViewModel {
 
     }
 
-    public void register(String userName, String about, String fullName, String phoneNumber, String image) {
-        firebaseMethods.registerUser(userName, about, fullName, phoneNumber, image);
+    public void register(UserModel user) {
+        firebaseMethods.registerUser(user);
     }
 
     public MutableLiveData<FirebaseUser> getLiveData() {

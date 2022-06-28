@@ -3,7 +3,7 @@
     <style name="Theme.Orate" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/backgroundColor</item>
-        <item name="colorPrimaryVariant">@color/purple_700</item>
+        <item name="colorPrimaryVariant">@color/backgroundColor</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/teal_200</item>
@@ -20,7 +20,8 @@
         <item name="android:backgroundTint">@color/backgroundColor</item>
         <item name="android:textStyle">bold</item>
     </style>
-z
+    z
+
     <style name="bigButtonTheme">
         <item name="android:layout_width">@dimen/widthCommon</item>
         <item name="android:height">70dp</item>
@@ -33,7 +34,7 @@ z
         <item name="android:layout_width">@dimen/widthCommon</item>
         <item name="android:layout_height">@dimen/heightCommon</item>
         <item name="android:background">@drawable/inputbox</item>
-         <item name="android:paddingLeft">8dp</item>
+        <item name="android:paddingLeft">8dp</item>
     </style>
 
     <style name="searchBoxTheme">
@@ -59,6 +60,16 @@ z
         <item name="android:layout_marginLeft">16dp</item>
     </style>
 
+
+    <style name="otpInput">
+        <item name="android:inputType">number</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:ems">10</item>
+        <item name="android:maxLength">1</item>
+        <item name="android:digits">0123456789</item>
+    </style>
 
     <dimen name="profileSize">50dp</dimen>
     <dimen name="profileFragmentImage">74dp</dimen>

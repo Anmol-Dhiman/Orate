@@ -1,11 +1,17 @@
 package com.example.orate.Repository.Firebase;
 
+import static android.content.Context.MODE_PRIVATE;
+
 import android.Manifest;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -69,8 +75,9 @@ public class FirebaseMethods {
                 Toast.makeText(context, "OTP sent successfully.....", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(context, OtpVerification.class);
                 intent.putExtra("verificationID", s);
-                intent.putExtra("PhoneNumber", phoneNumber);
+
                 context.startActivity(intent);
+                ((Activity) context).finish();
 
             }
 
@@ -103,8 +110,8 @@ public class FirebaseMethods {
                     if (task.isSuccessful()) {
                         Toast.makeText(context, "Phone number verified.", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(context, ProfileDetails.class);
-                        intent.putExtra("PhoneNumber", phoneNumber);
                         context.startActivity(intent);
+                        ((Activity) context).finish();
                     }
                 }
             });
@@ -112,21 +119,22 @@ public class FirebaseMethods {
     }
 
 
-    public void registerUser(String userName, String about, String fullName, String phoneNumber, String image) {
+    public void registerUser(UserModel user) {
 
         FirebaseAuth auth = FirebaseAuth.getInstance();
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         FirebaseStorage storage = FirebaseStorage.getInstance();
 
-        StorageReference reference = storage.getReference().child("Profile Image").child(phoneNumber);
-        reference.putFile(Uri.parse(image)).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+        StorageReference reference = storage.getReference().child("Profile Image").child(user.getPhoneNumber());
+        reference.putFile(Uri.parse(user.getImage())).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                 reference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                     @Override
                     public void onSuccess(Uri uri) {
-                        UserModel user = new UserModel(userName, uri.toString(), about, fullName, phoneNumber);
-                        database.getReference().child("User").child(phoneNumber).setValue(user).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        Log.d("main", "on user auth clear:  " + user);
+                        user.setImage(uri.toString());
+                        database.getReference().child("User").child(user.getPhoneNumber()).setValue(user).addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void unused) {
                                 userMutableLiveData.postValue(auth.getCurrentUser());
@@ -137,5 +145,26 @@ public class FirebaseMethods {
             }
         });
 
+    }
+
+    public static void showExitDialog(Context context) {
+        new AlertDialog.Builder(context).setTitle("Do you want to exit?").setPositiveButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        }).setNeutralButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                SharedPreferences preferences = context.getSharedPreferences("PREFERENCE", MODE_PRIVATE);
+                SharedPreferences.Editor editor = preferences.edit();
+                Log.d("main", "before change  : " + (Activity) context + " " + preferences.getString("FirstTimeOpening", ""));
+                editor.putString("FirstTimeOpening", "yes").apply();
+                Log.d("main", "after change in intro : " + (Activity) context + " " + preferences.getString("FirstTimeOpening", ""));
+
+                ((Activity) context).finish();
+
+            }
+        }).create().show();
     }
 }

@@ -60,11 +60,21 @@ public class OtpVerification extends AppCompatActivity {
                 if (code != null) {
                     Log.d("main", "in the resend otp button ");
                     Toast.makeText(OtpVerification.this, "resending otp", Toast.LENGTH_SHORT).show();
-                    FirebaseMethods.sendOtp(OtpVerification.this, getIntent().getStringExtra("PhoneNumber"));
+                    finish();
+                    FirebaseMethods.sendOtp(OtpVerification.this, phoneNumber);
                 }
             }
         });
     }
 
 
+    private void optInput() {
+//        binding.editTextNumber1.addTextChangedListener();
+    }
+
+
+    @Override
+    public void onBackPressed() {
+        FirebaseMethods.showExitDialog(this);
+    }
 }

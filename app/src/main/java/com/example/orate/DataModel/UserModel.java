@@ -4,6 +4,10 @@ public class UserModel {
 
     private String userName, image, about, fullName, phoneNumber;
 
+    public UserModel() {
+    }
+
+
 
     public UserModel(String userName, String image, String about, String fullName, String phoneNumber) {
         this.userName = userName;
