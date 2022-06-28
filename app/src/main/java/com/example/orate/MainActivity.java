@@ -29,8 +29,8 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseDatabase firebaseDatabase;
     private boolean isAudio = true;
     private boolean isVideo = true;
-//    private MethodsHelperClass helperClass;
-//    private HistoryViewModel historyViewModel;
+    private MethodsHelperClass helperClass = null;
+    private HistoryViewModel historyViewModel;
 
 
     @Override
@@ -41,16 +41,17 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         replaceFragment(new ContactList());
         firebaseDatabase = FirebaseDatabase.getInstance();
-//        helperClass = MethodsHelperClass.getHelperMethods();
-//        historyViewModel = new ViewModelProvider(this).get(HistoryViewModel.class);
-//        helperClassSetup();
-
+        helperClass = MethodsHelperClass.getHelperMethods();
+        historyViewModel = new ViewModelProvider(this).get(HistoryViewModel.class);
 
         SharedPreferences preferences = getSharedPreferences("DATA", MODE_PRIVATE);
         phoneNumber = preferences.getString("phoneNumber", "");
 
-        Bundle bundle = new Bundle();
-        bundle.putString("PhoneNumber", phoneNumber);
+
+
+        helperClassSetup();
+
+
 
 
         binding.bottomNavigationView.setOnItemSelectedListener(item -> {
@@ -99,31 +100,21 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    //    private void helperClassSetup() {
-//
-//        helperClass.setHistoryViewModel(historyViewModel);
-//        helperClass.setBinding(binding);
-//        helperClass.setPhoneNumber(phoneNumber);
-//        helperClass.setContext(MainActivity.this);
-//        helperClass.setUpWebView();
-//    }
-//
-//
+    private void helperClassSetup() {
+
+        helperClass.setHistoryViewModel(historyViewModel);
+        helperClass.setBinding(binding);
+        helperClass.setContext(MainActivity.this);
+        helperClass.setPhoneNumber(phoneNumber);
+        helperClass.setUpWebView();
+    }
+
+
     private void replaceFragment(Fragment fragment) {
         getSupportFragmentManager().beginTransaction().replace(R.id.framelayout, fragment).commit();
     }
 
-    public String getPhoneNumber() {
-        return "9992514648";
-    }
 
-    //
-//
-//    @Override
-//    public void onBackPressed() {
-//        finish();
-//    }
-//
 //
 //    @Override
 //    protected void onDestroy() {

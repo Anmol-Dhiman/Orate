@@ -139,7 +139,7 @@ public class ProfileDetails extends AppCompatActivity {
                                 @Override
                                 public void onSuccess(Uri uri) {
                                     imageUri = uri.toString();
-                                    firebaseAuthViewModel.register(new UserModel(userName, imageUri, about, userFullName, phoneNumber));
+                                    firebaseAuthViewModel.register(new UserModel(userName, imageUri, about, userFullName, phoneNumber, "false", "none", "false"));
 
                                 }
                             });

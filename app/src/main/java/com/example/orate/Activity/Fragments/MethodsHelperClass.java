@@ -2,6 +2,7 @@ package com.example.orate.Activity.Fragments;
 
 
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
 import android.webkit.PermissionRequest;
 import android.webkit.WebChromeClient;
@@ -11,12 +12,7 @@ import android.widget.Toast;
 
 
 import androidx.annotation.NonNull;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.room.TypeConverters;
 
-
-import com.example.orate.DataModel.DateConverter;
-import com.example.orate.MainActivity;
 import com.example.orate.Repository.RoomDatabase.CallHistoryModel;
 import com.example.orate.ViewModel.HistoryViewModel;
 import com.example.orate.databinding.ActivityMainBinding;
@@ -25,21 +21,17 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.sql.Date;
-
 
 public class MethodsHelperClass {
 
     private static MethodsHelperClass helperMethods = null;
-
-
     public HistoryViewModel historyViewModel = null;
     private ActivityMainBinding binding;
     private String phoneNumber;
     private Context context;
     private String mediaType;
     private String friendPhoneNumber;
-    private FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+    private FirebaseDatabase firebaseDatabase = null;
     private boolean isPeerConnected = false;
 
 
@@ -53,6 +45,7 @@ public class MethodsHelperClass {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+        Log.d("main", "setPhoneNumber: " + phoneNumber);
     }
 
     public void setBinding(ActivityMainBinding binding) {
@@ -60,12 +53,19 @@ public class MethodsHelperClass {
     }
 
 
+    public MethodsHelperClass() {
+        firebaseDatabase = FirebaseDatabase.getInstance();
+    }
+
     public static MethodsHelperClass getHelperMethods() {
 
         if (helperMethods == null) {
             helperMethods = new MethodsHelperClass();
         }
+
+        Log.d("main", "getHelperMethods: " + helperMethods);
         return helperMethods;
+
     }
 
     public void setUpWebView() {
@@ -100,13 +100,16 @@ public class MethodsHelperClass {
 
     private void initializePeer() {
 
-        callJavaScriptFunction("javascript:init(\"${phoneNumber}\")");
+        callJavaScriptFunction("javascript:init('" + phoneNumber + "')");
 
-        firebaseDatabase.getReference().child("User").child(phoneNumber).child("isAvailable").setValue(true);
+        firebaseDatabase.getReference().child("User").child(phoneNumber).child("isAvailable").setValue("true");
+        Log.d("main", "initializePeer: ");
         firebaseDatabase.getReference().child("User").child(phoneNumber).child("incoming").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                onCallRequest(snapshot.getValue().toString());
+                if (snapshot.getValue().toString() != "false") {
+                    onCallRequest(snapshot.getValue().toString());
+                }
             }
 
             @Override
@@ -127,7 +130,9 @@ public class MethodsHelperClass {
 
 
     private void onCallRequest(String caller) {
-        if (caller == null) return;
+        if (caller == "false" || caller == null) return;
+
+//        TODO show the call notification
         binding.callAlertMessage.setVisibility(View.VISIBLE);
         binding.callerName.setText(caller + " is calling....");
 
@@ -189,7 +194,7 @@ public class MethodsHelperClass {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             switchToControls();
-                            callJavaScriptFunction("javascript:startCall(\"${friendPhoneNumber}\")");
+                            callJavaScriptFunction("javascript:startCall('" + friendPhoneNumber + "')");
 
 //                          isConnected is used to check weather two people are doing a call or not right now and on the basis of that we give the input in the room database for call history
                             firebaseDatabase.getReference().child("User").child(phoneNumber).child("isConnected").addValueEventListener(new ValueEventListener() {
