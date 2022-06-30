@@ -5,27 +5,27 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
+
+
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 
 import android.Manifest;
-import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 
 import android.net.Uri;
 import android.os.Bundle;
 
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
 import com.example.orate.DataModel.UserModel;
 import com.example.orate.MainActivity;
+
 import com.example.orate.Repository.Firebase.FirebaseMethods;
 import com.example.orate.ViewModel.FirebaseAuthViewModel;
 import com.example.orate.databinding.ActivityProflieDetailsBinding;
@@ -38,7 +38,6 @@ import com.google.firebase.storage.UploadTask;
 
 public class ProfileDetails extends AppCompatActivity {
 
-    public static final int PERMISSION_CODE = 100;
 
     private ActivityProflieDetailsBinding binding;
     private ActivityResultLauncher<String> launcher;
@@ -49,6 +48,32 @@ public class ProfileDetails extends AppCompatActivity {
     private String userName = null;
     private String userFullName = null;
     private String about = null;
+
+    private ActivityResultLauncher<String> mPermissionResult = registerForActivityResult(
+            new ActivityResultContracts.RequestPermission(),
+            new ActivityResultCallback<Boolean>() {
+                @Override
+                public void onActivityResult(Boolean result) {
+                    if (result) {
+                        launcher.launch("image/*");
+                    } else {
+                        new AlertDialog.Builder(ProfileDetails.this)
+                                .setTitle("Permission Required to get the Image")
+                                .setPositiveButton("Allow", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        mPermissionResult.launch(Manifest.permission.READ_EXTERNAL_STORAGE);
+                                    }
+                                }).setNegativeButton("Dismiss", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        Toast.makeText(ProfileDetails.this, "You need to set the profile image", Toast.LENGTH_LONG).show();
+                                    }
+                                }).create().show();
+                    }
+                }
+            });
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,13 +97,10 @@ public class ProfileDetails extends AppCompatActivity {
 
                 SharedPreferences.Editor editor = preferences.edit();
                 editor.putString("userName", userName).apply();
-                Log.d("main", "" + userName);
+
                 editor.putString("userFullName", userFullName).apply();
-                Log.d("main", "" + userFullName);
                 editor.putString("imageUrl", imageUri).apply();
-                Log.d("main", "" + imageUri);
                 editor.putString("about", about).apply();
-                Log.d("main", "" + about);
 
 
 //                intent have to be started here
@@ -100,10 +122,7 @@ public class ProfileDetails extends AppCompatActivity {
         binding.profilePic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (checkPermission()) {
-                    launcher.launch("image/*");
-                } else
-                    requestPermission();
+                mPermissionResult.launch(Manifest.permission.READ_EXTERNAL_STORAGE);
 
             }
         });
@@ -116,7 +135,6 @@ public class ProfileDetails extends AppCompatActivity {
             }
         });
     }
-
 
 
     private void userDataEntry() {
@@ -133,7 +151,7 @@ public class ProfileDetails extends AppCompatActivity {
                 about = "Hey there I'm using Orate!";
             }
             if (imageUri != null) {
-//                        here we will get the uri store the user profile image to firebase storage and get the download link
+                //                        here we will get the uri store the user profile image to firebase storage and get the download link
                 if (storage != null) {
                     StorageReference reference = storage.getReference().child("Profile Image").child(phoneNumber);
                     reference.putFile(Uri.parse(imageUri)).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -159,15 +177,6 @@ public class ProfileDetails extends AppCompatActivity {
 
         }
 
-    }
-
-
-    private boolean checkPermission() {
-        return ContextCompat.checkSelfPermission(ProfileDetails.this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(ProfileDetails.this, Manifest.permission.INTERNET) == PackageManager.PERMISSION_GRANTED;
-    }
-
-    private void requestPermission() {
-        ActivityCompat.requestPermissions(ProfileDetails.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.INTERNET}, PERMISSION_CODE);
     }
 
 

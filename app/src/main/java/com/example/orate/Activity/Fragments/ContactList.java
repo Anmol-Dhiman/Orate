@@ -62,7 +62,7 @@ public class ContactList extends Fragment {
                                     public void onClick(DialogInterface dialog, int which) {
                                         mPermissionResult.launch(Manifest.permission.READ_CONTACTS);
                                     }
-                                }).setNegativeButton("dismiss", new DialogInterface.OnClickListener() {
+                                }).setNegativeButton("Dismiss", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
                                         Toast.makeText(getContext(), "We can not show the contacts without permission.", Toast.LENGTH_LONG).show();

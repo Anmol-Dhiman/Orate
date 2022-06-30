@@ -21,7 +21,6 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 
 import com.example.orate.Activity.Fragments.JavaScriptInterface;
-import com.example.orate.Repository.RoomDatabase.CallHistoryModel;
 import com.example.orate.ViewModel.HistoryViewModel;
 import com.example.orate.databinding.ActivityMainBinding;
 import com.google.firebase.database.DataSnapshot;
@@ -42,21 +41,6 @@ public class MainActivityHelper {
     private FirebaseDatabase firebaseDatabase;
     private boolean isPeerConnected = false;
 
-//    private ActivityResultLauncher<String> mPermissionResult =
-//
-//    private ActivityResultLauncher<String> mPermissionResult = context.registerForActivityResult(
-//            new ActivityResultContracts.RequestPermission(),
-//            new ActivityResultCallback<Boolean>() {
-//                @Override
-//                public void onActivityResult(Boolean result) {
-//                    if (result) {
-//                        Log.e("contactList", "onActivityResult: PERMISSION GRANTED");
-//
-//                    } else {
-//
-//                    }
-//                }
-//            });
 
 
     public void setHistoryViewModel(HistoryViewModel historyViewModel) {
@@ -123,7 +107,7 @@ public class MainActivityHelper {
     private void initializePeer() {
 
         callJavaScriptFunction("javascript:init('" + phoneNumber + "')");
-//        onPeerConnected();
+        onPeerConnected();
         firebaseDatabase.getReference().child("User").child(phoneNumber).child("isAvailable").setValue("true");
         Log.d("main", "initializePeer: ");
         firebaseDatabase.getReference().child("User").child(phoneNumber).child("incoming").addValueEventListener(new ValueEventListener() {
@@ -165,9 +149,10 @@ public class MainActivityHelper {
 
 //               incoming call accepted room input
 
-                historyViewModel.insert(new CallHistoryModel(mediaType, friendPhoneNumber, "incoming"));
+//                historyViewModel.insert(new CallHistoryModel(mediaType, friendPhoneNumber, "incoming"));
+
                 binding.callAlertMessage.setVisibility(View.GONE);
-                firebaseDatabase.getReference().child("User").child(phoneNumber).child("isConnected").setValue(true);
+                firebaseDatabase.getReference().child("User").child(phoneNumber).child("isConnected").setValue("true");
 
             }
         });
@@ -207,36 +192,28 @@ public class MainActivityHelper {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Log.d("isAva", "onDataChange: " + snapshot.getValue().toString());
+
+//friend is connected to the server here
                 if (snapshot.getValue().toString().trim().equals("true")) {
 
 //                    now this will call the method onCallRequest as we have changed the value of incoming
                     setFriendPhoneNumber(friendPhoneNumber);
 
-                    firebaseDatabase.getReference().child("User").child(phoneNumber).child("incoming").addValueEventListener(new ValueEventListener() {
+                    firebaseDatabase.getReference().child("User").child(friendPhoneNumber).child("incoming").setValue(context.getSharedPreferences("DATA", Context.MODE_PRIVATE).getString("userName", phoneNumber));
+                    switchToControls();
+                    callJavaScriptFunction("javascript:startCall('" + friendPhoneNumber + "')");
+
+//                          isConnected is used to check weather two people are doing a call or not right now and on the basis of that we give the input in the room database for call history
+                    firebaseDatabase.getReference().child("User").child(friendPhoneNumber).child("isConnected").addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-                            switchToControls();
-                            callJavaScriptFunction("javascript:startCall('" + friendPhoneNumber + "')");
-
-//                          isConnected is used to check weather two people are doing a call or not right now and on the basis of that we give the input in the room database for call history
-                            firebaseDatabase.getReference().child("User").child(phoneNumber).child("isConnected").addValueEventListener(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(@NonNull DataSnapshot snapshot) {
-
 //                                we have to store date here
-                                    if (snapshot.getValue().toString() == "true") {
+                            if (snapshot.getValue().toString().equals("true")) {
 //                                        historyViewModel.insert(new CallHistoryModel(mediaType, friendPhoneNumber, "outgoing", ));
-                                    } else {
+                            } else {
 //                                        historyViewModel.insert(new CallHistoryModel(mediaType, friendPhoneNumber, "outgoingMissedCall", ));
-                                    }
-                                }
-
-                                @Override
-                                public void onCancelled(@NonNull DatabaseError error) {
-
-                                }
-                            });
+                            }
                         }
 
                         @Override
@@ -246,7 +223,11 @@ public class MainActivityHelper {
                     });
 
 
-                } else
+                }
+
+
+//                friend is not connected to the server
+                else
                     Toast.makeText(context, "Your friend is not connected....", Toast.LENGTH_LONG).show();
             }
 

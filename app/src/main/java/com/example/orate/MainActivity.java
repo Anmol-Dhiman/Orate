@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
+
 
 
 import com.example.orate.Activity.Fragments.CallHistory;
@@ -113,10 +113,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        Log.e("onStop", "onStop: value changed");
         firebaseDatabase.getReference().child("User").child(phoneNumber).child("isAvailable").setValue("false");
         binding.webView.loadUrl("about:blank");
-        helperClass.onPeerDisconnected();
+
         finish();
     }
 
