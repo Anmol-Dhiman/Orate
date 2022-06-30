@@ -65,6 +65,7 @@ public class ContactListHelper {
     public void setContactListAdapter() {
 
         adapter = new Adapter(context, CONTACT_LIST_ACTIVITY_CODE);
+        adapter.setContactList(contactsList);
         binding.contactRecyclerView.setAdapter(adapter);
         binding.contactRecyclerView.setLayoutManager(new LinearLayoutManager(context));
         firebaseDatabase.getReference().child("User").addValueEventListener(new ValueEventListener() {
@@ -73,12 +74,14 @@ public class ContactListHelper {
                 contactsList.clear();
                 for (DataSnapshot dataSnapshots : snapshot.getChildren()) {
                     UserModel user = dataSnapshots.getValue(UserModel.class);
+                    Log.d("contact", "onDataChange: " + user.getPhoneNumber());
+//                    addInList(user);
 
-                    addInList(user);
-
+                    if (!user.getPhoneNumber().equals(phoneNumber)) {
+                        contactsList.add(user);
+                    }
 
                 }
-                adapter.setContactList(contactsList);
                 adapter.notifyDataSetChanged();
             }
 
@@ -102,10 +105,13 @@ public class ContactListHelper {
                 @SuppressLint("Range")
                 String number = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
                 Log.d("contacts", "addInList: " + number);
+                Log.d("user", "addInList: " + user.getPhoneNumber());
+
                 if (user.getPhoneNumber().equals(number) || ("+91" + user.getPhoneNumber()).equals(number)) {
-                    Log.d("user", "addInList: " + user.getPhoneNumber());
                     contactsList.add(user);
                     return;
+
+
                 }
             }
         }

@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 
 
 import com.example.orate.Activity.Fragments.CallHistory;
@@ -22,7 +23,6 @@ import com.google.firebase.database.FirebaseDatabase;
 public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
-    private boolean isPeerConnected = false;
     private String phoneNumber = null;
     private FirebaseDatabase firebaseDatabase;
     private boolean isAudio = true;
@@ -46,10 +46,7 @@ public class MainActivity extends AppCompatActivity {
         phoneNumber = preferences.getString("phoneNumber", "");
 
 
-
         helperClassSetup();
-
-
 
 
         binding.bottomNavigationView.setOnItemSelectedListener(item -> {
@@ -113,11 +110,18 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.e("onStop", "onStop: value changed");
+        firebaseDatabase.getReference().child("User").child(phoneNumber).child("isAvailable").setValue("false");
+        binding.webView.loadUrl("about:blank");
+        helperClass.onPeerDisconnected();
+        finish();
+    }
 
     @Override
     protected void onDestroy() {
-        firebaseDatabase.getReference().child("User").child(phoneNumber).child("isAvailable").setValue(false);
-        binding.webView.loadUrl("about:blank");
         super.onDestroy();
     }
 }

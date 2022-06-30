@@ -1,7 +1,11 @@
 package com.example.orate.MethodHelperClasses;
 
 
+import android.Manifest;
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.util.Log;
 import android.view.View;
 import android.webkit.PermissionRequest;
@@ -11,6 +15,9 @@ import android.webkit.WebViewClient;
 import android.widget.Toast;
 
 
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 
 import com.example.orate.Activity.Fragments.JavaScriptInterface;
@@ -32,8 +39,24 @@ public class MainActivityHelper {
     private Context context;
     private String mediaType;
     private String friendPhoneNumber;
-    private FirebaseDatabase firebaseDatabase = null;
+    private FirebaseDatabase firebaseDatabase;
     private boolean isPeerConnected = false;
+
+//    private ActivityResultLauncher<String> mPermissionResult =
+//
+//    private ActivityResultLauncher<String> mPermissionResult = context.registerForActivityResult(
+//            new ActivityResultContracts.RequestPermission(),
+//            new ActivityResultCallback<Boolean>() {
+//                @Override
+//                public void onActivityResult(Boolean result) {
+//                    if (result) {
+//                        Log.e("contactList", "onActivityResult: PERMISSION GRANTED");
+//
+//                    } else {
+//
+//                    }
+//                }
+//            });
 
 
     public void setHistoryViewModel(HistoryViewModel historyViewModel) {
@@ -80,7 +103,6 @@ public class MainActivityHelper {
         binding.webView.getSettings().setJavaScriptEnabled(true);
         binding.webView.getSettings().setMediaPlaybackRequiresUserGesture(false);
         binding.webView.addJavascriptInterface(new JavaScriptInterface(helperMethods), "Android");
-
         loadVideoCall();
     }
 
@@ -101,20 +123,17 @@ public class MainActivityHelper {
     private void initializePeer() {
 
         callJavaScriptFunction("javascript:init('" + phoneNumber + "')");
-
+//        onPeerConnected();
         firebaseDatabase.getReference().child("User").child(phoneNumber).child("isAvailable").setValue("true");
         Log.d("main", "initializePeer: ");
         firebaseDatabase.getReference().child("User").child(phoneNumber).child("incoming").addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.getValue().toString() != "false") {
-                    onCallRequest(snapshot.getValue().toString());
-                }
+            public void onDataChange(DataSnapshot snapshot) {
+                onCallRequest(snapshot.getValue().toString().trim());
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
             }
         });
     }
@@ -130,9 +149,12 @@ public class MainActivityHelper {
 
 
     private void onCallRequest(String caller) {
-        if (caller == "false" || caller == null || caller == "none") return;
+        if (caller.equals("false")) {
+            binding.callAlertMessage.setVisibility(View.GONE);
+            return;
+        }
 
-//        TODO show the call notification
+        //        TODO show the call notification
         binding.callAlertMessage.setVisibility(View.VISIBLE);
         binding.callerName.setText(caller + " is calling....");
 
@@ -159,14 +181,13 @@ public class MainActivityHelper {
 //                date variable
 //                historyViewModel.insert(new CallHistoryModel(mediaType, friendPhoneNumber, "incomingMissedCall"));
                 binding.callAlertMessage.setVisibility(View.GONE);
-                firebaseDatabase.getReference().child("User").child(phoneNumber).child("incoming").setValue(false);
-                firebaseDatabase.getReference().child("User").child(phoneNumber).child("isConnected").setValue(false);
+                firebaseDatabase.getReference().child("User").child(phoneNumber).child("incoming").setValue("false");
+                firebaseDatabase.getReference().child("User").child(phoneNumber).child("isConnected").setValue("false");
 
             }
         });
-
-
     }
+
 
     public void setFriendPhoneNumber(String friendPhoneNumber) {
         this.friendPhoneNumber = friendPhoneNumber;
@@ -185,7 +206,8 @@ public class MainActivityHelper {
         firebaseDatabase.getReference().child("User").child(friendPhoneNumber).child("isAvailable").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.getValue().toString() == "true") {
+                Log.d("isAva", "onDataChange: " + snapshot.getValue().toString());
+                if (snapshot.getValue().toString().trim().equals("true")) {
 
 //                    now this will call the method onCallRequest as we have changed the value of incoming
                     setFriendPhoneNumber(friendPhoneNumber);
@@ -193,6 +215,7 @@ public class MainActivityHelper {
                     firebaseDatabase.getReference().child("User").child(phoneNumber).child("incoming").addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
+
                             switchToControls();
                             callJavaScriptFunction("javascript:startCall('" + friendPhoneNumber + "')");
 
@@ -244,5 +267,9 @@ public class MainActivityHelper {
         binding.basicUi.setVisibility(View.GONE);
         binding.webView.setVisibility(View.VISIBLE);
         binding.mediaControls.setVisibility(View.VISIBLE);
+    }
+
+    public void onPeerDisconnected() {
+        isPeerConnected = false;
     }
 }

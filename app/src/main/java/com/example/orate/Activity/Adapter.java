@@ -1,17 +1,26 @@
 package com.example.orate.Activity;
 
+import android.Manifest;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.example.orate.MethodHelperClasses.ContactListHelper;
 import com.example.orate.MethodHelperClasses.MainActivityHelper;
 import com.example.orate.DataModel.UserModel;
 import com.example.orate.R;
@@ -34,6 +43,8 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
     private List<UserModel> contactList;
     private FirebaseDatabase firebaseDatabase;
     private List<CallHistoryModel> callHistoryModelsList;
+
+
 
 
     public void setContactList(List<UserModel> contactList) {
@@ -79,6 +90,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
             holder.videoCall.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    Log.d("friendPhoneNumber", "onClick: " + model.getPhoneNumber() + " friend phone Number");
                     mainActivityHelper.sendCallRequest(model.getPhoneNumber(), "video");
                 }
             });
@@ -138,7 +150,8 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
 
     @Override
     public int getItemCount() {
-        return 0;
+        if (ACTIVITY_CODE == ACTIVITY_CODE_CONTACT) return contactList.size();
+        else return callHistoryModelsList.size();
     }
 
 

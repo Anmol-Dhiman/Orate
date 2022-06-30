@@ -14,7 +14,7 @@ import android.view.ViewGroup;
 
 import com.example.orate.Activity.Adapter;
 import com.example.orate.MainActivity;
-import com.example.orate.MethodHelperClasses.MainActivityHelper;
+//import com.example.orate.MethodHelperClasses.MainActivityHelper;
 import com.example.orate.R;
 import com.example.orate.Repository.RoomDatabase.CallHistoryModel;
 import com.example.orate.ViewModel.HistoryViewModel;
@@ -34,22 +34,22 @@ public class CallHistory extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        Adapter adapter = new Adapter(container.getContext(), 2);
-
-        binding.historyRecyclerView.setLayoutManager(new LinearLayoutManager(container.getContext()));
-        binding.historyRecyclerView.setAdapter(adapter);
+//        Adapter adapter = new Adapter(container.getContext(), 2);
+//
+//        binding.historyRecyclerView.setLayoutManager(new LinearLayoutManager(container.getContext()));
+//        binding.historyRecyclerView.setAdapter(adapter);
 
         binding = FragmentCallHistoryBinding.inflate(inflater, container, false);
 
-        viewModel = MainActivityHelper.getHelperMethods().historyViewModel;
+//        viewModel = MainActivityHelper.getHelperMethods().historyViewModel;
 
 
-        viewModel.getHistory().observe(getViewLifecycleOwner(), new Observer<List<CallHistoryModel>>() {
-            @Override
-            public void onChanged(List<CallHistoryModel> callHistoryModels) {
-                adapter.setCallHistoryModelsList(callHistoryModels);
-            }
-        });
+//        viewModel.getHistory().observe(getViewLifecycleOwner(), new Observer<List<CallHistoryModel>>() {
+//            @Override
+//            public void onChanged(List<CallHistoryModel> callHistoryModels) {
+//                adapter.setCallHistoryModelsList(callHistoryModels);
+//            }
+//        });
 
 
         return binding.getRoot();
