@@ -5,9 +5,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-
+import android.view.View;
 
 
 import com.example.orate.Activity.Fragments.CallHistory;
@@ -67,31 +69,31 @@ public class MainActivity extends AppCompatActivity {
 
 
 //        the button for video on or off
-//        binding.videoButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                isVideo = !isVideo;
-//                helperClass.callJavaScriptFunction("javascript:toggleVideo(\"${isVideo}\")");
-//                if (isVideo)
-//                    binding.videoButton.setImageResource(R.drawable.ic_videomediaon);
-//                else
-//                    binding.videoButton.setImageResource(R.drawable.ic_videomediaoff);
-//            }
-//        });
+        binding.videoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                isVideo = !isVideo;
+                helperClass.callJavaScriptFunction("javascript:toggleVideo('" + isVideo + "')");
+                if (isVideo)
+                    binding.videoButton.setImageResource(R.drawable.ic_videomediaon);
+                else
+                    binding.videoButton.setImageResource(R.drawable.ic_videomediaoff);
+            }
+        });
 
 
 //        the button for audio on and off
-//        binding.audioButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                isAudio = !isAudio;
-//                helperClass.callJavaScriptFunction("javascript:toggleVideo(\"${isAudio}\")");
-//                if (isVideo)
-//                    binding.audioButton.setImageResource(R.drawable.ic_audiomediaon);
-//                else
-//                    binding.audioButton.setImageResource(R.drawable.ic_audiomediaoff);
-//            }
-//        });
+        binding.audioButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                isAudio = !isAudio;
+                helperClass.callJavaScriptFunction("javascript:toggleVideo('" + isAudio + "')");
+                if (isVideo)
+                    binding.audioButton.setImageResource(R.drawable.ic_audiomediaon);
+                else
+                    binding.audioButton.setImageResource(R.drawable.ic_audiomediaoff);
+            }
+        });
 
     }
 
@@ -109,18 +111,32 @@ public class MainActivity extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction().replace(R.id.framelayout, fragment).commit();
     }
 
-
     @Override
-    protected void onStop() {
-        super.onStop();
-        firebaseDatabase.getReference().child("User").child(phoneNumber).child("isAvailable").setValue("false");
-        binding.webView.loadUrl("about:blank");
+    public void onBackPressed() {
+        new AlertDialog.Builder(this).setTitle("Do you want to exit?")
+                .setPositiveButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
 
-        finish();
+                    }
+                }).setNegativeButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        destroyConnection();
+                    }
+                }).create().show();
     }
 
     @Override
     protected void onDestroy() {
+        destroyConnection();
         super.onDestroy();
+    }
+
+    private void destroyConnection() {
+        firebaseDatabase.getReference().child("User").child(phoneNumber).child("isAvailable").setValue("false");
+        binding.webView.loadUrl("about:blank");
+        finish();
     }
 }

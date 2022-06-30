@@ -78,7 +78,7 @@ public class ContactListHelper {
 //                    addInList(user);
 
                     if (!user.getPhoneNumber().equals(phoneNumber)) {
-                        contactsList.add(user);
+                        addInList(user);
                     }
 
                 }
@@ -110,8 +110,6 @@ public class ContactListHelper {
                 if (user.getPhoneNumber().equals(number) || ("+91" + user.getPhoneNumber()).equals(number)) {
                     contactsList.add(user);
                     return;
-
-
                 }
             }
         }

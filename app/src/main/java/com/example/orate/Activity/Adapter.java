@@ -1,6 +1,7 @@
 package com.example.orate.Activity;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -11,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
@@ -90,7 +92,8 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
             holder.videoCall.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Log.d("friendPhoneNumber", "onClick: " + model.getPhoneNumber() + " friend phone Number");
+
+
                     mainActivityHelper.sendCallRequest(model.getPhoneNumber(), "video");
                 }
             });

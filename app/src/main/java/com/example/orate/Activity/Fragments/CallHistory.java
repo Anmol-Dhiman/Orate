@@ -2,6 +2,7 @@ package com.example.orate.Activity.Fragments;
 
 import android.os.Bundle;
 
+import androidx.activity.result.ActivityResultLauncher;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
@@ -29,6 +30,7 @@ public class CallHistory extends Fragment {
     private LiveData<List<CallHistoryModel>> liveData;
     private HistoryViewModel viewModel;
     public static final int CALL_HISTORY_ACTIVITY_CODE = 2;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

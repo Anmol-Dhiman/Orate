@@ -1,11 +1,9 @@
 package com.example.orate.MethodHelperClasses;
 
 
-import android.Manifest;
-import android.app.Activity;
-import android.app.AlertDialog;
+
 import android.content.Context;
-import android.content.DialogInterface;
+
 import android.util.Log;
 import android.view.View;
 import android.webkit.PermissionRequest;
@@ -14,10 +12,6 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
 
-
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 
 import com.example.orate.Activity.Fragments.JavaScriptInterface;
@@ -40,6 +34,7 @@ public class MainActivityHelper {
     private String friendPhoneNumber;
     private FirebaseDatabase firebaseDatabase;
     private boolean isPeerConnected = false;
+
 
 
 
